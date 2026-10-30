@@ -1,30 +1,39 @@
 # 5. ¿Cómo aprende una red neuronal?
 
-Entrenar es repetir predicción, comparación y ajuste. Para una predicción `ŷ` y objetivo `y`, una pérdida sencilla es:
+Entrenar es repetir predicción, comparación y ajuste. Para una predicción $\hat{y}$ y objetivo $y$, una pérdida sencilla es:
 
-\[
-L=(\hat y-y)^2.
-\]
+$$
+L = (\hat{y} - y)^2.
+$$
 
 El descenso de gradiente actualiza un parámetro:
 
-\[
-w_{nuevo}=w_{anterior}-\eta\frac{\partial L}{\partial w},
-\]
+$$
+w_{\text{nuevo}} = w_{\text{anterior}}
+  - \eta \frac{\partial L}{\partial w}.
+$$
 
-donde `η` es la tasa de aprendizaje y la derivada indica cómo cambia el error al cambiar `w`.
+donde $\eta$ es la tasa de aprendizaje y la derivada indica cómo cambia el error al cambiar $w$.
 
 ## Ejemplo completo
 
-Considera `ŷ=wx`, objetivo `y=4`, ejemplo `x=2`, `w=1` y `η=0.1`.
+Considera $\hat{y} = wx$, objetivo $y = 4$, ejemplo $x = 2$, $w = 1$ y $\eta = 0.1$.
 
-1. Predicción: `ŷ=1×2=2`.
-2. Error: `ŷ-y=-2`.
-3. Pérdida: `L=(-2)^2=4`.
-4. Derivada: como `L=(wx-y)^2`, `∂L/∂w=2(wx-y)x=2(-2)(2)=-8`.
-5. Actualización: `w=1-0.1(-8)=1.8`.
+1. Predicción: $\hat{y} = 1 \times 2 = 2$.
+2. Error: $\hat{y} - y = -2$.
+3. Pérdida: $L = (-2)^2 = 4$.
+4. Derivada: como $L = (wx - y)^2$:
 
-Segunda iteración: `ŷ=1.8×2=3.6`, `L=(3.6-4)^2=0.16`; el error disminuyó. El ajuste no “comprende” el ejemplo: mueve un número en la dirección que reduce la función definida.
+   $$
+   \begin{aligned}
+   \frac{\partial L}{\partial w}
+   &= 2(wx-y)x \\
+   &= 2(-2)(2) = -8.
+   \end{aligned}
+   $$
+5. Actualización: $w = 1 - 0.1(-8) = 1.8$.
+
+Segunda iteración: $\hat{y} = 1.8 \times 2 = 3.6$, $L = (3.6 - 4)^2 = 0.16$; el error disminuyó. El ajuste no “comprende” el ejemplo: mueve un número en la dirección que reduce la función definida.
 
 ## Retropropagación
 
@@ -50,6 +59,6 @@ Reducir pérdida no garantiza verdad, justicia o utilidad. La función de pérdi
 
 ## Resumen y práctica
 
-El entrenamiento ajusta parámetros mediante gradientes. Preguntas: ¿qué representa `η`? ¿por qué se resta el gradiente? ¿cómo distinguir error de entrenamiento y generalización? Ejecuta `ejemplos/descenso_gradiente.py` y observa dos iteraciones.
+El entrenamiento ajusta parámetros mediante gradientes. Preguntas: ¿qué representa $\eta$? ¿por qué se resta el gradiente? ¿cómo distinguir error de entrenamiento y generalización? Ejecuta `ejemplos/descenso_gradiente.py` y observa dos iteraciones.
 
 [Siguiente: preentrenamiento y ajuste fino →](06-preentrenamiento.md)

@@ -4,18 +4,18 @@ Los parámetros son valores numéricos que el entrenamiento ajusta para que el m
 
 | Concepto | ¿Se ajusta durante el entrenamiento? | Ejemplo |
 |---|---:|---|
-| Peso | Sí | `w = -0.2` |
-| Sesgo | Sí | `b = 0.1` |
-| Hiperparámetro | No directamente | tasa de aprendizaje `η` |
-| Activación | No; es resultado | `a = 0.5` |
-| Gradiente | Se calcula | `∂L/∂w` |
+| Peso | Sí | $w = -0.2$ |
+| Sesgo | Sí | $b = 0.1$ |
+| Hiperparámetro | No directamente | tasa de aprendizaje $\eta$ |
+| Activación | No; es resultado | $a = 0.5$ |
+| Gradiente | Se calcula | $\frac{\partial L}{\partial w}$ |
 | Estado del optimizador | Se actualiza, pero no es el modelo | momento acumulado |
 
 Los parámetros no equivalen a respuestas almacenadas, palabras del vocabulario ni ejemplos completos. Son números distribuidos en matrices y tensores. En entrenamiento se inicializan, por ejemplo, con valores aleatorios pequeños; una mala escala inicial puede dificultar la optimización.
 
 ## Una intuición cuantitativa
 
-Si `z=w₁x₁+w₂x₂+b`, aumentar `w₁` hace que `x₁` influya más. Cambiar `b` mueve la frontera de activación. El efecto depende también de la escala de las entradas.
+Si $z = w_1 x_1 + w_2 x_2 + b$, aumentar $w_1$ hace que $x_1$ influya más. Cambiar $b$ mueve la frontera de activación. El efecto depende también de la escala de las entradas.
 
 ## Parámetros frente a hiperparámetros
 
@@ -30,7 +30,7 @@ El tamaño de lote, el número de épocas y la tasa de aprendizaje se eligen par
 
 ## Resumen y práctica
 
-Un parámetro es ajustable; un hiperparámetro configura el proceso. Actividad: toma una neurona con dos entradas y construye una tabla de pesos entre `-1` y `1`; observa cómo cambia `z`.
+Un parámetro es ajustable; un hiperparámetro configura el proceso. Actividad: toma una neurona con dos entradas y construye una tabla de pesos entre $-1$ y $1$; observa cómo cambia $z$.
 
 Preguntas: ¿qué valor se ajusta para desplazar la salida sin cambiar entradas? ¿Qué ocurre si todos los pesos son cero? ¿Por qué necesitamos validar fuera de los ejemplos vistos?
 

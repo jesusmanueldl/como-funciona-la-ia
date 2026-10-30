@@ -2,13 +2,13 @@
 
 ## Neuronas y capas densas
 
-Una neurona con tres entradas tiene tres pesos y un sesgo: `3+1=4`. Una capa densa con `n_entrada` entradas y `n_salida` neuronas tiene una matriz de pesos de tamaño `n_entrada × n_salida` y un sesgo por neurona:
+Una neurona con tres entradas tiene tres pesos y un sesgo: $3 + 1 = 4$. Una capa densa con $n_{\text{entrada}}$ entradas y $n_{\text{salida}}$ neuronas tiene una matriz de pesos de tamaño $n_{\text{entrada}} \times n_{\text{salida}}$ y un sesgo por neurona:
 
-\[
-P=(n_{entrada}\times n_{salida})+n_{salida}.
-\]
+$$
+P = (n_{\text{entrada}} \times n_{\text{salida}}) + n_{\text{salida}}.
+$$
 
-Para 3 entradas y 4 neuronas: `(3×4)+4=16`. La matriz contiene 12 pesos; el vector de sesgos contiene 4 valores.
+Para 3 entradas y 4 neuronas: $(3 \times 4) + 4 = 16$. La matriz contiene 12 pesos; el vector de sesgos contiene 4 valores.
 
 ```mermaid
 flowchart LR
@@ -17,13 +17,13 @@ flowchart LR
   B[4 sesgos] --> O
 ```
 
-En una red `3 → 4 → 2`: primera capa `16`; segunda `(4×2)+2=10`; total `26`.
+En una red $3 \rightarrow 4 \rightarrow 2$: primera capa $16$; segunda $(4 \times 2) + 2 = 10$; total $26$.
 
 ## Tensores y Transformers
 
-Un tensor de forma `3×4×5` tiene `3×4×5=60` elementos. En arquitecturas de lenguaje, aparecen embeddings, proyecciones de query/key/value, capas feed-forward, normalizaciones y, según el diseño, vocabularios y pesos compartidos.
+Un tensor de forma $3 \times 4 \times 5$ tiene $3 \times 4 \times 5 = 60$ elementos. En arquitecturas de lenguaje, aparecen embeddings, proyecciones de query/key/value, capas feed-forward, normalizaciones y, según el diseño, vocabularios y pesos compartidos.
 
-Un embedding de vocabulario `V` y dimensión `d` aporta `V×d`. Una proyección lineal de entrada `d_in` a `d_out` aporta `d_in×d_out+d_out`. Una normalización suele aportar dos vectores de tamaño `d`, aunque el detalle depende de la arquitectura.
+Un embedding de vocabulario $V$ y dimensión $d$ aporta $V \times d$. Una proyección lineal de entrada $d_{\text{in}}$ a $d_{\text{out}}$ aporta $d_{\text{in}} \times d_{\text{out}} + d_{\text{out}}$. Una normalización suele aportar dos vectores de tamaño $d$, aunque el detalle depende de la arquitectura.
 
 El total real depende de dimensiones, capas, si hay sesgos, pesos compartidos y componentes opcionales. `1B`, `7B` y `70B` suelen ser cifras redondeadas, no identificadores exactos.
 
@@ -43,6 +43,6 @@ print(parametros_densa(4, 2))  # 10
 
 ## Resumen y práctica
 
-Cuenta pesos por conexiones y sesgos por unidad de salida. Preguntas: ¿cuántos elementos hay en una matriz `3×4`? ¿qué cambia al compartir pesos? ¿por qué el nombre “7B” no basta para calcular memoria exacta?
+Cuenta pesos por conexiones y sesgos por unidad de salida. Preguntas: ¿cuántos elementos hay en una matriz $3 \times 4$? ¿qué cambia al compartir pesos? ¿por qué el nombre “7B” no basta para calcular memoria exacta?
 
 [Siguiente: entrenamiento →](05-entrenamiento.md)

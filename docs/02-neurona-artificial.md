@@ -4,29 +4,33 @@
 
 La neurona artificial más simple combina una entrada con un peso y un sesgo:
 
-\[
-y=wx+b.
-\]
+$$
+y = wx + b.
+$$
 
 `x` es la entrada, `w` el peso, `b` el sesgo y `y` la salida. El peso indica cuánto influye la entrada; el sesgo desplaza el resultado incluso cuando la entrada vale cero.
 
 Con varias entradas:
 
-\[
-z=\sum_{i=1}^{n}w_i x_i+b,\qquad a=f(z).
-\]
+$$
+z = \sum_{i=1}^{n} w_i x_i + b,
+\qquad a = f(z).
+$$
 
-`z` es la suma ponderada y `f` una función de activación. Por ejemplo, ReLU es `f(z)=max(0,z)`. La activación permite combinar transformaciones de manera no lineal.
+`z` es la suma ponderada y `f` una función de activación. Por ejemplo, ReLU es $f(z) = \max(0,z)$. La activación permite combinar transformaciones de manera no lineal.
 
 ## Ejemplo resuelto
 
-Con `x₁=2`, `x₂=3`, `w₁=0.5`, `w₂=-0.2` y `b=0.1`:
+Con $x_1 = 2$, $x_2 = 3$, $w_1 = 0.5$, $w_2 = -0.2$ y $b = 0.1$:
 
-\[
-z=(2\times0.5)+(3\times-0.2)+0.1=1-0.6+0.1=0.5.
-\]
+$$
+\begin{aligned}
+z &= (2 \times 0.5) + (3 \times -0.2) + 0.1 \\
+  &= 1 - 0.6 + 0.1 = 0.5.
+\end{aligned}
+$$
 
-Con ReLU, `a=max(0,0.5)=0.5`. La neurona recibe dos señales, pondera cada una, suma el sesgo y conserva el valor positivo.
+Con ReLU, $a = \max(0,0.5) = 0.5$. La neurona recibe dos señales, pondera cada una, suma el sesgo y conserva el valor positivo.
 
 ```mermaid
 flowchart LR

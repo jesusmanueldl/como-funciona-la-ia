@@ -2,11 +2,11 @@
 
 Un modelo de lenguaje asigna probabilidades a secuencias. En predicción del siguiente token estima:
 
-\[
-P(x_t\mid x_1,x_2,\ldots,x_{t-1}).
-\]
+$$
+P\left(x_t \mid x_1, x_2, \ldots, x_{t-1}\right).
+$$
 
-La barra significa “probabilidad de `x_t` dado el contexto anterior”. Con “El cielo es”, tokens como “azul” pueden recibir mayor probabilidad que una palabra sin relación. Eso es una predicción estadística, no una consulta a una lista de frases completas.
+La barra significa “probabilidad de $x_t$ dado el contexto anterior”. Con “El cielo es”, tokens como “azul” pueden recibir mayor probabilidad que una palabra sin relación. Eso es una predicción estadística, no una consulta a una lista de frases completas.
 
 Un token puede ser una palabra, fragmento, carácter o byte según el tokenizador. La división “Hola, ¿cómo estás?” en `Hola`, `,`, `¿cómo`, `estás`, `?` es ilustrativa: cada tokenizador real puede dividirla de otra forma.
 

@@ -4,11 +4,21 @@ Bits codifican valores. FP32 usa 32 bits, FP16 16, BF16 conserva más rango con 
 
 El tamaño teórico de pesos es:
 
-\[
-bytes=parámetros\times bits\ por\ parámetro/8.
-\]
+$$
+\text{bytes}
+ = \frac{\text{parámetros} \times \text{bits por parámetro}}{8}.
+$$
 
-Para 1,000 millones a 16 bits: `1,000,000,000×16/8=2,000,000,000` bytes, es decir 2 GB decimales o aproximadamente 1.86 GiB antes de sobrecargas.
+Para 1,000 millones a 16 bits:
+
+$$
+\begin{aligned}
+1{,}000{,}000{,}000 \times \frac{16}{8}
+  &= 2{,}000{,}000{,}000\ \text{bytes}.
+\end{aligned}
+$$
+
+es decir, 2 GB decimales o aproximadamente 1.86 GiB antes de sobrecargas.
 
 En la práctica se suman escalas, metadatos, activaciones, buffers y caché KV. Entrenar requiere gradientes y estados del optimizador; inferir requiere pesos, activaciones y caché. Cuantizar reduce memoria, pero puede degradar algunas salidas y el efecto depende del método y datos.
 

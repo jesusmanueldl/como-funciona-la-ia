@@ -50,9 +50,12 @@ flowchart LR
 
 Una capa densa con 3 entradas y 4 neuronas tiene 12 pesos y 4 sesgos:
 
-\[
-P=(n_{entrada}\times n_{salida})+n_{salida}=(3\times4)+4=16.
-\]
+$$
+\begin{aligned}
+P &= (n_{\text{entrada}} \times n_{\text{salida}}) + n_{\text{salida}} \\
+  &= (3 \times 4) + 4 = 16.
+\end{aligned}
+$$
 
 El número no significa 16 respuestas almacenadas: son 16 valores ajustables que participan en muchas transformaciones.
 
