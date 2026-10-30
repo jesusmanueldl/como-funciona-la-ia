@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+title: "¿Cómo funciona realmente la inteligencia artificial?"
+message: "Si utilizas este material, cita este repositorio."
+authors:
+  - family-names: "De Dios Lopez"
+    given-names: "Jesus Manuel"
+version: "1.0.0"
+date-released: 2026-10-30
+license: "CC-BY-4.0"
+repository-code: "https://github.com/jesusmanueldl/como-funciona-la-ia"

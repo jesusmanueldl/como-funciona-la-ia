@@ -1,0 +1,59 @@
+# 1. ¿Qué es la inteligencia artificial?
+
+## Idea sencilla
+
+La inteligencia artificial (IA) es el campo que construye sistemas capaces de realizar tareas que asociamos con capacidades humanas, como clasificar, predecir, percibir, generar lenguaje o tomar decisiones. No es una sustancia ni una mente única: es un conjunto de métodos y sistemas.
+
+Una analogía útil es una caja de herramientas. Un martillo, una regla y un robot pueden resolver problemas distintos; llamar a todo eso “IA” describe el campo, no una sola máquina.
+
+## Un mapa de conceptos
+
+```mermaid
+flowchart TD
+  IA[Inteligencia artificial]
+  IA --> Simbolica[Reglas y símbolos]
+  IA --> ML[Aprendizaje automático]
+  ML --> DL[Aprendizaje profundo]
+  DL --> Generativa[Generación]
+  DL --> Discriminativa[Clasificación y predicción]
+  Generativa --> Lenguaje[Modelos de lenguaje]
+  Lenguaje --> Aplicacion[Chatbots y asistentes]
+  Aplicacion --> Agente[Agentes con objetivos y herramientas]
+```
+
+La jerarquía no es absoluta: existen sistemas híbridos y modelos que combinan aprendizaje, búsqueda y reglas. No toda IA es una red neuronal, no toda red neuronal es un modelo de lenguaje y no todo modelo de lenguaje es un agente.
+
+## Evolución breve
+
+La IA pasó por periodos de razonamiento simbólico, sistemas expertos, métodos estadísticos y aprendizaje profundo. El cambio importante no fue que apareciera una “inteligencia” mágica, sino que aumentaron los datos, la capacidad de cómputo y la capacidad de optimizar modelos con muchos parámetros.
+
+## Aprendizaje automático y profundo
+
+En el aprendizaje automático, un programa ajusta un modelo a partir de ejemplos. En el aprendizaje profundo, el modelo contiene muchas capas de transformaciones diferenciables y aprende representaciones internas. “Profundo” describe la composición de capas, no una garantía de comprensión.
+
+La IA discriminativa estima clases o valores: “¿es spam?” o “¿cuál es la temperatura?”. La generativa produce datos nuevos siguiendo patrones aprendidos: texto, imágenes o audio.
+
+## Especializada y general
+
+Una IA especializada optimiza una tarea o familia de tareas. La inteligencia artificial general es una idea de investigación y debate, no una categoría con una definición y prueba universalmente aceptadas. Conviene no presentar capacidades observables como conciencia o experiencia subjetiva.
+
+## Errores frecuentes
+
+- Confundir IA con un robot físico.
+- Suponer que una salida fluida demuestra comprensión humana.
+- Creer que “aprendizaje automático” significa que el sistema aprende durante cada conversación.
+- Usar “algoritmo” y “modelo” como sinónimos: el algoritmo es el procedimiento; el modelo es el objeto ajustado.
+
+## Resumen
+
+IA es el campo amplio; aprendizaje automático aprende de datos; aprendizaje profundo usa redes de muchas capas; los modelos de lenguaje son una especialización; un agente es un sistema que puede usar modelos y herramientas para perseguir objetivos.
+
+## Autoevaluación
+
+1. ¿Por qué una calculadora con reglas puede formar parte de un sistema de IA sin ser una red neuronal?
+2. ¿Qué diferencia hay entre generar y clasificar?
+3. ¿Por qué un chatbot no es automáticamente un agente?
+
+**Actividad:** clasifica un filtro de correo, un traductor y un robot aspirador según tarea, datos, modelo y herramientas.
+
+[Siguiente: la neurona artificial →](02-neurona-artificial.md)

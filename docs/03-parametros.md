@@ -1,0 +1,37 @@
+# 3. ¿Qué son los parámetros?
+
+Los parámetros son valores numéricos que el entrenamiento ajusta para que el modelo produzca resultados más útiles. En una neurona, pesos y sesgo son parámetros entrenables.
+
+| Concepto | ¿Se ajusta durante el entrenamiento? | Ejemplo |
+|---|---:|---|
+| Peso | Sí | `w = -0.2` |
+| Sesgo | Sí | `b = 0.1` |
+| Hiperparámetro | No directamente | tasa de aprendizaje `η` |
+| Activación | No; es resultado | `a = 0.5` |
+| Gradiente | Se calcula | `∂L/∂w` |
+| Estado del optimizador | Se actualiza, pero no es el modelo | momento acumulado |
+
+Los parámetros no equivalen a respuestas almacenadas, palabras del vocabulario ni ejemplos completos. Son números distribuidos en matrices y tensores. En entrenamiento se inicializan, por ejemplo, con valores aleatorios pequeños; una mala escala inicial puede dificultar la optimización.
+
+## Una intuición cuantitativa
+
+Si `z=w₁x₁+w₂x₂+b`, aumentar `w₁` hace que `x₁` influya más. Cambiar `b` mueve la frontera de activación. El efecto depende también de la escala de las entradas.
+
+## Parámetros frente a hiperparámetros
+
+El tamaño de lote, el número de épocas y la tasa de aprendizaje se eligen para controlar el entrenamiento. No se infieren de la misma manera que los pesos. La distinción importa: “el modelo tiene 7B parámetros” no describe por sí sola sus datos, arquitectura o calidad.
+
+## Errores frecuentes
+
+- Contar una activación como un parámetro.
+- Llamar “peso” a cualquier número intermedio.
+- Suponer que más parámetros garantizan mejor respuesta.
+- Confundir el estado temporal del optimizador con parámetros finales.
+
+## Resumen y práctica
+
+Un parámetro es ajustable; un hiperparámetro configura el proceso. Actividad: toma una neurona con dos entradas y construye una tabla de pesos entre `-1` y `1`; observa cómo cambia `z`.
+
+Preguntas: ¿qué valor se ajusta para desplazar la salida sin cambiar entradas? ¿Qué ocurre si todos los pesos son cero? ¿Por qué necesitamos validar fuera de los ejemplos vistos?
+
+[Siguiente: contar parámetros →](04-calculo-de-parametros.md)
