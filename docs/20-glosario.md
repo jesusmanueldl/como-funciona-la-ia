@@ -1,4 +1,14 @@
-# 20. Glosario y conclusiones
+# 20. ¿Cómo genera una respuesta un modelo?
+
+El flujo es prompt → tokenización → embeddings → capas → logits → probabilidades → selección de token → repetición. La inferencia suele tener una fase de preparación del contexto y otra de decodificación. Temperatura, top-$k$ y top-$p$ cambian la selección, no el conocimiento aprendido.
+
+Softmax transforma logits en probabilidades:
+
+$$
+P_i=\frac{e^{z_i}}{\sum_j e^{z_j}}.
+$$
+
+## Glosario y conclusiones
 
 **Agente:** sistema que persigue objetivos mediante observación y acciones. **Activación:** salida de una unidad. **Atención:** combinación ponderada de representaciones. **Autoregresivo:** que usa tokens previos para predecir el siguiente. **Backpropagation:** cálculo de gradientes hacia atrás. **Batch:** lote de ejemplos. **Bias/sesgo:** término independiente. **Chatbot:** aplicación conversacional. **Contexto:** información disponible en una solicitud. **Cuantización:** representación con menor precisión. **Dataset:** conjunto de datos. **Descenso de gradiente:** actualización guiada por derivadas. **Embedding:** vector aprendido. **Época:** recorrido del conjunto. **Fine-tuning:** ajuste especializado. **Función de pérdida:** medida de error. **Gradiente:** derivadas respecto a parámetros. **IA:** campo de sistemas inteligentes. **Inferencia:** uso de un modelo ya ajustado. **LLM:** modelo de lenguaje grande. **Logit:** puntuación previa a softmax. **Lote:** grupo procesado junto. **Memoria externa:** datos persistentes fuera de pesos. **Modelo:** función parametrizada. **Neurona artificial:** suma ponderada y activación. **Parámetro:** valor ajustable. **Prompt:** entrada para un modelo. **RAG:** generación aumentada por recuperación. **ReLU:** $\max(0,z)$. **Red neuronal:** capas de unidades conectadas. **Sesgo:** véase bias. **Softmax:** normalización exponencial de puntuaciones. **Token:** unidad del vocabulario. **Tokenizer:** conversor texto-IDs. **Transformer:** arquitectura basada en atención. **Ventana de contexto:** límite de tokens procesados. **Peso:** coeficiente de una conexión. **Validación:** evaluación durante el desarrollo. **Sobreajuste:** memorizar sin generalizar. **Subajuste:** capacidad insuficiente. **Q, K, V:** query, key y value. **FP32:** coma flotante de 32 bits. **FP16:** coma flotante de 16 bits. **BF16:** formato de 16 bits con rango amplio. **INT8:** entero de 8 bits. **Top-k:** muestreo entre $k$ candidatos. **Top-p:** muestreo por masa acumulada. **Temperatura:** controla concentración de probabilidades. **Herramienta:** función externa invocable. **Permiso:** límite autorizado para una acción. **Observación:** resultado devuelto por una herramienta. **Planificación:** selección ordenada de pasos. **Alucinación:** salida sin respaldo suficiente.
 

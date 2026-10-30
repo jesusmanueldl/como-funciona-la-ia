@@ -1,4 +1,16 @@
-# 2. Desde cero: la neurona artificial
+# 2. Las matemáticas mínimas para entender una IA
+
+Antes de multiplicar entradas por pesos, conviene leer una fórmula como una instrucción. En $y = 2x + 1$, $x$ es una variable, 2 y 1 son constantes, y la función transforma cualquier entrada en una salida. Sustituir $x=3$ produce $y=7$.
+
+Una variable puede cambiar; una constante se mantiene en el ejemplo. Una suma como $2+3+4$ puede escribirse como $\sum_{i=1}^{3} i$; una potencia repite multiplicaciones: $2^3=8$. Una fracción compara cantidades. Una probabilidad está entre 0 y 1, y las probabilidades de resultados excluyentes suman 1.
+
+Un vector es una lista ordenada, por ejemplo $\mathbf{x}=[2,3]$. Una matriz es una tabla: $W$ de tamaño $2\times 3$ tiene dos filas y tres columnas. La derivada responde “¿qué tan rápido cambia la salida?”; el gradiente reúne derivadas para orientar una actualización. Estas ideas reaparecen en los capítulos 3–7.
+
+## Práctica matemática
+
+Calcula $y = 3x - 2$ para $x=0,1,2$. Después representa las calificaciones $[8,9,7]$ como un vector y explica qué información se perdería si se cambiara el orden.
+
+## Aplicación: una neurona
 
 ## De una entrada a una salida
 

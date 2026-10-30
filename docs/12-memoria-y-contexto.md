@@ -1,4 +1,10 @@
-# 12. Memoria, contexto y conocimiento
+# 12. ¿Qué es un modelo preentrenado?
+
+Una persona puede aprender habilidades generales antes de estudiar un dominio técnico. Un modelo preentrenado es análogo en ese sentido: ya pasó por una etapa previa y sus pesos se reutilizan. No significa “entrenado a medias”. Puede existir un modelo base, uno ajustado a instrucciones o uno especializado en un dominio.
+
+Los pesos aprendidos se convierten en un punto de partida; la calidad depende de datos, objetivo y evaluación. El contexto y la memoria externa son mecanismos distintos de los pesos.
+
+## Memoria, contexto y conocimiento
 
 Hay varias cosas llamadas “memoria”:
 

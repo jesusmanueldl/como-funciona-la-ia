@@ -1,4 +1,16 @@
-# 4. ¿Cómo se calcula el número de parámetros?
+# 4. ¿Qué es una red neuronal?
+
+Una red conecta muchas neuronas en capas. La capa de entrada recibe características, las capas ocultas transforman representaciones y la salida produce una predicción. La propagación hacia adelante aplica esas transformaciones en orden.
+
+```mermaid
+flowchart LR
+  X[3 entradas] --> H[Capa oculta: 4 neuronas]
+  H --> Y[Capa de salida: 2 valores]
+```
+
+En una red $3\rightarrow4\rightarrow2$, la primera capa convierte un vector de tres componentes en uno de cuatro; la segunda convierte ese vector en dos salidas. Cada conexión tiene un peso y cada unidad de salida puede tener un sesgo. Las activaciones evitan que la composición sea solo una operación lineal.
+
+El resto de este capítulo cuenta esos valores y muestra por qué las dimensiones de las matrices deben coincidir.
 
 ## Neuronas y capas densas
 

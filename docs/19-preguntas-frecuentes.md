@@ -1,4 +1,8 @@
-# 19. Preguntas frecuentes y mitos
+# 19. ¿Qué es un LLM?
+
+Un LLM es un modelo de lenguaje grande, pero no existe un umbral universal para “grande”. Importan arquitectura, parámetros, datos, contexto, entrenamiento, eficiencia y evaluación. Aumentar parámetros puede ampliar capacidad, pero no garantiza verdad, seguridad ni mejor rendimiento en toda tarea.
+
+## Preguntas frecuentes y mitos
 
 1. **¿7B significa siete mil millones de respuestas?** No: aproximadamente siete mil millones de parámetros.
 2. **¿Un parámetro es una neurona?** No necesariamente.

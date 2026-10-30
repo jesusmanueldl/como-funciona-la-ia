@@ -1,4 +1,8 @@
-# 16. IA, modelo, LLM, chatbot, asistente y agente
+# 16. ¿Qué es un modelo de lenguaje?
+
+Completa: “El cielo está...” o “Llevaré paraguas porque va a...”. El contexto cambia qué continuaciones son plausibles. Un modelo de lenguaje asigna una probabilidad condicional a una secuencia y predice el siguiente token; no consulta necesariamente una lista de frases completas.
+
+## IA, modelo, LLM, chatbot, asistente y agente
 
 | Término | Qué describe | Ejemplo |
 |---|---|---|

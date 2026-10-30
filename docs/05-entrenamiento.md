@@ -1,4 +1,10 @@
-# 5. ¿Cómo aprende una red neuronal?
+# 5. ¿Qué son realmente los parámetros?
+
+Imagina una máquina que calcula descuentos. Sus pesos determinan cuánto importa el precio y el porcentaje; el sesgo desplaza el resultado. El entrenamiento modifica esos números, pero una activación intermedia no es un parámetro permanente.
+
+Los parámetros entrenables se actualizan mediante gradientes. Un parámetro congelado permanece fijo durante una etapa; un hiperparámetro, como la tasa de aprendizaje, configura el proceso. El estado del optimizador ayuda a continuar el entrenamiento, pero no es necesariamente parte de la respuesta del modelo.
+
+## El aprendizaje como ajuste
 
 Entrenar es repetir predicción, comparación y ajuste. Para una predicción $\hat{y}$ y objetivo $y$, una pérdida sencilla es:
 

@@ -1,4 +1,4 @@
-# 1. ¿Qué es la inteligencia artificial?
+# 1. ¿Qué es realmente la inteligencia artificial?
 
 ## Idea sencilla
 
@@ -57,3 +57,22 @@ IA es el campo amplio; aprendizaje automático aprende de datos; aprendizaje pro
 **Actividad:** clasifica un filtro de correo, un traductor y un robot aspirador según tarea, datos, modelo y herramientas.
 
 [Siguiente: la neurona artificial →](02-neurona-artificial.md)
+## La pregunta inicial
+
+Cuando una bandeja separa spam, una app recomienda una canción o un teléfono reconoce una cara, ¿está “pensando” o está transformando datos con un procedimiento? La inteligencia artificial (IA) es el campo que construye sistemas capaces de realizar tareas que asociamos con percepción, predicción, lenguaje, decisión o acción.
+
+La IA no es una técnica única. Un sistema basado en reglas puede usar IA sin aprendizaje profundo; un modelo de aprendizaje automático aprende regularidades a partir de datos; el aprendizaje profundo usa redes con muchas capas; la IA generativa produce contenido y la predictiva estima resultados. “Discriminativa” suele referirse a distinguir clases o estimar una decisión, mientras que “generativa” modela cómo producir ejemplos.
+
+```mermaid
+flowchart TD
+  IA[Inteligencia artificial] --> Reglas[Sistemas basados en reglas]
+  IA --> AA[Aprendizaje automático]
+  AA --> Profundo[Aprendizaje profundo]
+  AA --> Generativa[IA generativa]
+```
+
+Un **modelo** es una función o estructura ajustada; un **sistema** incluye datos, modelo, interfaz, reglas y operación. Un filtro de correo puede combinar reglas y un clasificador entrenado. La analogía con una persona ayuda a preguntar, pero no demuestra conciencia ni comprensión humana.
+
+## Ejemplo y comprobación
+
+Clasifica “factura urgente” y “ganaste un premio” según palabras, remitente y ejemplos previos. Escribe qué parte sería una regla y qué parte podría aprenderse. La respuesta correcta depende del objetivo y de los datos, no solo del nombre “IA”.
