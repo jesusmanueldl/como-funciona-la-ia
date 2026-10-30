@@ -1,4 +1,17 @@
-# 9. Transformers y atención
+# 9. Tipos de aprendizaje
+
+Con fotografías de frutas, el aprendizaje **supervisado** usa etiquetas; el **no supervisado** busca estructura sin etiquetas; el **autosupervisado** crea objetivos desde los propios datos; el **semisupervisado** combina ejemplos etiquetados y sin etiquetar; el **aprendizaje por refuerzo** aprende de recompensas y consecuencias.
+
+Semisupervisado describe el método de datos, no un modelo “a medias”. Elegir depende de qué señales existen, qué error importa y cómo se evaluará el resultado.
+
+```mermaid
+flowchart LR
+  S[Datos etiquetados + sin etiquetar] --> SS[Aprendizaje semisupervisado]
+  E[Datos etiquetados] --> SUP[Supervisado]
+  U[Datos sin etiquetar] --> UNS[No supervisado]
+```
+
+## Atención y Transformers
 
 La arquitectura Transformer procesa secuencias con atención y capas feed-forward. En self-attention cada posición calcula qué otras posiciones son relevantes.
 

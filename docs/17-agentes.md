@@ -1,4 +1,8 @@
-# 17. ¿Cómo funciona un agente de IA?
+# 17. Tokens, embeddings y representaciones numéricas
+
+El recorrido es texto → tokens → IDs → vectores. Un token puede ser palabra, fragmento, carácter o byte; un embedding asigna coordenadas aprendidas. La similitud de dos vectores puede medirse con un producto escalar o coseno, pero ningún eje universal significa una idea.
+
+## Agentes como aplicación
 
 ```mermaid
 flowchart LR

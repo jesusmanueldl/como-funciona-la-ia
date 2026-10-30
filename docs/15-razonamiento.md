@@ -1,4 +1,10 @@
-# 15. ¿Qué significa que una IA razone?
+# 15. ¿Cómo entrenar un pequeño modelo de lenguaje?
+
+Un modelo de lenguaje educativo puede aprender caracteres o tokens de un corpus pequeño con licencia adecuada. `ejemplos/modelo_lenguaje_pequeno.py` cuenta qué carácter suele seguir a otro y genera texto por la continuación más frecuente. Tiene vocabulario, secuencias, objetivo y generación, pero no es un Transformer ni un LLM de producción.
+
+Un proyecto más completo separaría corpus, entrenamiento y prueba, guardaría un checkpoint y mediría pérdida. Los resultados limitados son parte del experimento: muestran que memorizar patrones locales no equivale a comprensión general.
+
+## Razonamiento y límites
 
 Un modelo puede producir pasos coherentes, resolver ciertos problemas y planificar secuencias. Eso describe una capacidad observable. No demuestra experiencia subjetiva, conciencia ni pensamiento humano.
 

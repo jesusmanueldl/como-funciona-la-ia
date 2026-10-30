@@ -1,4 +1,10 @@
-# 8. Embeddings y representaciones numéricas
+# 8. ¿De dónde obtiene los datos una IA?
+
+Un conjunto educativo puede contener ejemplos, etiquetas y una división explícita entre entrenamiento, validación y prueba. Limpiar duplicados, revisar permisos, documentar procedencia y buscar sesgos importa tanto como escoger el algoritmo. Si una prueba se filtra al entrenamiento, la métrica deja de medir generalización.
+
+Los datos sintéticos pueden ampliar casos y proteger información, pero también pueden repetir errores. La calidad no es solo cantidad: incluye cobertura, licencia, representatividad y consistencia.
+
+## Representaciones numéricas
 
 Un embedding asigna un vector a un token. Si $e = [0.8, 0.1]$, sus coordenadas no son una definición textual; son una representación útil para las operaciones aprendidas.
 

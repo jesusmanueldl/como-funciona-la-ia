@@ -1,4 +1,10 @@
-# 11. ¿Cómo genera una respuesta un LLM?
+# 11. ¿Qué es un modelo parcialmente entrenado?
+
+“Parcialmente entrenado” describe el estado de un proceso, no una arquitectura universal. Un checkpoint puede guardar pesos, época, contador de pasos y estado del optimizador para continuar. La evaluación intermedia permite observar aprendizaje y sobreajuste, pero un checkpoint parcial no es automáticamente útil.
+
+El ejemplo `ejemplos/entrenar_modelo.py` guarda una red pequeña, la carga y comprueba que la predicción se conserva. En un sistema real también se documentan versiones de datos, hiperparámetros y métricas.
+
+## Inferencia de un modelo ya entrenado
 
 El flujo general es: prompt → tokenización → embeddings → capas → logits → probabilidades → selección → nuevo token → repetición.
 

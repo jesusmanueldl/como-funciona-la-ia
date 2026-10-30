@@ -1,4 +1,10 @@
-# 6. Datos, preentrenamiento y ajuste fino
+# 6. ¿Cómo se calcula el número de parámetros?
+
+Una neurona con tres entradas tiene $3+1=4$ parámetros. Una capa con 3 entradas y 4 neuronas tiene $3\times4$ pesos y 4 sesgos, por lo que $P=(3\times4)+4=16$. En una red $3\rightarrow4\rightarrow2$, el total es $16+10=26$.
+
+Las dimensiones explican el conteo: una matriz $W\in\mathbb{R}^{3\times4}$ contiene 12 pesos y un vector de sesgos contiene 4. Un embedding de vocabulario $V$ y dimensión $d$ contiene $V\times d$ valores. Parámetros, operaciones y memoria no son lo mismo.
+
+## Datos, preentrenamiento y ajuste fino
 
 Un conjunto de entrenamiento sirve para ajustar parámetros; validación y prueba estiman generalización. Una época es un recorrido; un lote es una parte. Los optimizadores combinan gradientes con reglas como momento o Adam.
 
