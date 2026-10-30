@@ -1,34 +1,37 @@
 # 11. ¿Qué es un modelo parcialmente entrenado?
 
-“Parcialmente entrenado” describe el estado de un proceso, no una arquitectura universal. Un checkpoint puede guardar pesos, época, contador de pasos y estado del optimizador para continuar. La evaluación intermedia permite observar aprendizaje y sobreajuste, pero un checkpoint parcial no es automáticamente útil.
+## Guardar la partida mientras aprendemos
 
-El ejemplo `ejemplos/entrenar_modelo.py` guarda una red pequeña, la carga y comprueba que la predicción se conserva. En un sistema real también se documentan versiones de datos, hiperparámetros y métricas.
+Cuando juegas un videojuego, puedes guardar tu avance y continuar mañana. El entrenamiento de una red neuronal también puede conservar estados intermedios. Un **checkpoint** es una instantánea que permite guardar y, en ciertas condiciones, reanudar un entrenamiento.
 
-## Inferencia de un modelo ya entrenado
+### Un entrenamiento incompleto
 
-El flujo general es: prompt → tokenización → embeddings → capas → logits → probabilidades → selección → nuevo token → repetición.
+Supongamos que planeamos 100 pasos de ajuste, pero nos detenemos en el 30. Tenemos un modelo entrenado parcialmente respecto al plan establecido. Puede que ya funcione algo; también puede que todavía prediga muy mal. «Parcialmente entrenado» no describe una arquitectura oficial ni garantiza calidad.
 
-Los logits $z_i$ se convierten con softmax:
+### ¿Qué guarda un checkpoint?
 
-$$
-P_i = \frac{e^{z_i}}{\sum_j e^{z_j}}.
-$$
+Depende de la implementación. Para **hacer inferencia** puede bastar con los pesos, la arquitectura y la información necesaria para preparar entradas. Para **reanudar fielmente** el entrenamiento también conviene guardar el estado del optimizador, el paso o época, el estado del generador aleatorio y cualquier configuración relevante.
 
-Con logits $[2, 1]$, las probabilidades son aproximadamente $[0.73, 0.27]$. La temperatura $T$ modifica $z_i / T$: una temperatura menor concentra la distribución; una mayor la aplana. Greedy elige el máximo; top-$k$ conserva $k$ candidatos; top-$p$ conserva el conjunto cuya masa acumulada alcanza $p$.
-
-```mermaid
-sequenceDiagram
-  participant U as Usuario
-  participant M as Modelo
-  U->>M: Prompt
-  M->>M: Tokens y capas
-  M->>M: Probabilidades
-  M-->>U: Un token
-  M->>M: Repetir hasta detenerse
+```text
+checkpoint ilustrativo
+  pesos: {"w": 0.976}
+  paso: 3
+  optimizador: {...}
+  configuración: {"tasa_aprendizaje": 0.1}
 ```
 
-La variación puede provenir del muestreo, temperatura, contexto o estado del sistema. Predicción no es recuperación literal de respuestas almacenadas.
+Este bloque solo muestra la idea: un checkpoint real puede contener muchos tensores binarios y metadatos.
 
-**Práctica:** ejecuta `ejemplos/probabilidades.py`. Preguntas: ¿qué ocurre con $T = 0.5$?, ¿por qué un token probable puede ser falso?, ¿qué señal detiene la generación?
+### Cargar pesos no equivale a continuar exactamente
 
-[Siguiente →](12-memoria-y-contexto.md)
+Si restauras solo $w=0.976$ en una regresión simple, puedes seguir calculando predicciones. Pero con optimizadores que mantienen momentos internos, como Adam, olvidar su estado puede cambiar la trayectoria de entrenamiento. Tampoco debes usar una copia de checkpoint como si estuviera evaluada en un conjunto de prueba independiente.
+
+### Pasos, épocas y versiones
+
+Un paso es una actualización del optimizador; una época representa, en términos generales, pasar una vez por el conjunto de entrenamiento. Para ciertos entrenamientos, como el de grandes modelos con datos de flujo, se describe progreso también mediante tokens procesados.
+
+**Práctica:** ejecuta `ejemplos/entrenar_modelo.py` del repositorio y comprueba cómo guarda y restaura sus pesos. Si la salida restaurada difiere de la previa, investiga el formato o el redondeo.
+
+**Ejercicio resuelto.** Un modelo empezó en $w=0$, tras tres pasos tiene $w=0.976$ y se detuvo. ¿Es preentrenado por esa razón? **No necesariamente:** solo sabemos que recibió tres actualizaciones. «Preentrenado» se refiere a una fase previa de aprendizaje, normalmente antes de la tarea final.
+
+**Siguiente:** [entender qué significa preentrenamiento](12-memoria-y-contexto.md).

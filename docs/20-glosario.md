@@ -1,21 +1,46 @@
-# 20. ¿Cómo genera una respuesta un modelo?
+# 20. Inferencia: cómo genera una respuesta un modelo
 
-El flujo es prompt → tokenización → embeddings → capas → logits → probabilidades → selección de token → repetición. La inferencia suele tener una fase de preparación del contexto y otra de decodificación. Temperatura, top-$k$ y top-$p$ cambian la selección, no el conocimiento aprendido.
+## ¿Cómo puede aparecer una frase nueva en pantalla?
 
-Softmax transforma logits en probabilidades:
+Piensa en escribir una historia palabra por palabra. Para cada paso, un modelo de lenguaje estima probabilidades de continuaciones y selecciona una unidad de texto. La respuesta completa se construye mediante muchas decisiones sucesivas; no tiene que existir como una frase almacenada antes de empezar.
 
-$$
-P_i=\frac{e^{z_i}}{\sum_j e^{z_j}}.
-$$
+### El recorrido completo
 
-## Glosario y conclusiones
+```mermaid
+flowchart LR
+  A[Prompt] --> B[Tokenizador]
+  B --> C[IDs y embeddings]
+  C --> D[Capas del modelo]
+  D --> E[Logits]
+  E --> F[Probabilidades]
+  F --> G[Token elegido]
+  G --> H[Repetir hasta terminar]
+```
 
-**Agente:** sistema que persigue objetivos mediante observación y acciones. **Activación:** salida de una unidad. **Atención:** combinación ponderada de representaciones. **Autoregresivo:** que usa tokens previos para predecir el siguiente. **Backpropagation:** cálculo de gradientes hacia atrás. **Batch:** lote de ejemplos. **Bias/sesgo:** término independiente. **Chatbot:** aplicación conversacional. **Contexto:** información disponible en una solicitud. **Cuantización:** representación con menor precisión. **Dataset:** conjunto de datos. **Descenso de gradiente:** actualización guiada por derivadas. **Embedding:** vector aprendido. **Época:** recorrido del conjunto. **Fine-tuning:** ajuste especializado. **Función de pérdida:** medida de error. **Gradiente:** derivadas respecto a parámetros. **IA:** campo de sistemas inteligentes. **Inferencia:** uso de un modelo ya ajustado. **LLM:** modelo de lenguaje grande. **Logit:** puntuación previa a softmax. **Lote:** grupo procesado junto. **Memoria externa:** datos persistentes fuera de pesos. **Modelo:** función parametrizada. **Neurona artificial:** suma ponderada y activación. **Parámetro:** valor ajustable. **Prompt:** entrada para un modelo. **RAG:** generación aumentada por recuperación. **ReLU:** $\max(0,z)$. **Red neuronal:** capas de unidades conectadas. **Sesgo:** véase bias. **Softmax:** normalización exponencial de puntuaciones. **Token:** unidad del vocabulario. **Tokenizer:** conversor texto-IDs. **Transformer:** arquitectura basada en atención. **Ventana de contexto:** límite de tokens procesados. **Peso:** coeficiente de una conexión. **Validación:** evaluación durante el desarrollo. **Sobreajuste:** memorizar sin generalizar. **Subajuste:** capacidad insuficiente. **Q, K, V:** query, key y value. **FP32:** coma flotante de 32 bits. **FP16:** coma flotante de 16 bits. **BF16:** formato de 16 bits con rango amplio. **INT8:** entero de 8 bits. **Top-k:** muestreo entre $k$ candidatos. **Top-p:** muestreo por masa acumulada. **Temperatura:** controla concentración de probabilidades. **Herramienta:** función externa invocable. **Permiso:** límite autorizado para una acción. **Observación:** resultado devuelto por una herramienta. **Planificación:** selección ordenada de pasos. **Alucinación:** salida sin respaldo suficiente.
+El **prompt** es la entrada, incluyendo instrucciones y contexto. El tokenizador la convierte en IDs. Las capas calculan representaciones y producen **logits**: puntuaciones numéricas antes de transformarlas en probabilidades.
 
-## Conclusión
+### De puntuaciones a probabilidades: softmax
 
-Una neurona combina entradas con pesos y sesgo. Una red compone muchas operaciones. El entrenamiento ajusta parámetros mediante pérdida y gradientes. En un modelo de lenguaje, tokens se convierten en vectores, atraviesan capas de atención y producen probabilidades; la inferencia elige tokens uno a uno. Un agente añade objetivos, herramientas, memoria, validaciones y permisos. Esa cadena explica tanto la potencia como los límites del sistema.
+Si los logits hipotéticos para tres tokens son $[2,1,0]$, aplicamos:
 
-**Actividad final:** explica el recorrido completo sin usar las palabras “magia” ni “piensa” como sustitutos de una operación concreta.
+$$P_i=\frac{e^{z_i}}{\sum_j e^{z_j}},$$
 
-[Volver al README →](../README.md)
+con $z_i$ igual al logit del token $i$; $e$ es la base de los logaritmos naturales. Los valores aproximados son $e^2=7.389$, $e^1=2.718$ y $e^0=1$. La suma es $11.107$. Así obtenemos probabilidades aproximadas $[0.665,0.245,0.090]$.
+
+### ¿Cómo se elige el token?
+
+**Greedy decoding** elige el token con probabilidad más alta. **Temperatura** modifica la distribución: valores menores suelen concentrar probabilidades, y valores mayores suelen repartirlas más. **Top-k** restringe la selección a los $k$ candidatos mejor puntuados; **top-p** a un conjunto cuya probabilidad acumulada alcanza un umbral. No todas las aplicaciones usan estos procedimientos ni las mismas configuraciones.
+
+### Prefill y generación
+
+En modelos autoregresivos, el procesamiento inicial del prompt se suele llamar **prefill**; después se ejecuta la **decodificación** paso a paso. El tiempo hasta el primer token y los tokens generados por segundo describen aspectos diferentes del rendimiento.
+
+### ¿Cuándo termina?
+
+Puede detenerse al generar un token especial de finalización o por un límite configurado de longitud. Si el límite es demasiado corto, una respuesta puede quedar incompleta.
+
+**Práctica:** ejecuta `ejemplos/probabilidades.py` y observa cómo cambia la distribución al variar la temperatura. **Ejercicio:** con tres probabilidades iguales, ¿qué selecciona greedy si hay empate? Depende de la regla de desempate implementada; no hay una palabra universalmente correcta.
+
+**Error frecuente:** la probabilidad de una continuación no garantiza que el texto describa un hecho real.
+
+**Siguiente:** [cómo se ejecuta un modelo](21-ejecucion-y-memoria.md).

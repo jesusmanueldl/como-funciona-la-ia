@@ -1,49 +1,70 @@
 # 3. ¿Cómo funciona una neurona artificial?
 
-Una máquina muy pequeña puede multiplicar una entrada, sumar un desplazamiento y producir una salida. Esa es la idea de una neurona artificial: no es una neurona biológica, sino una función que combina números.
+## Una pequeña máquina que transforma números
 
-Para una entrada usamos $y=wx+b$. Con $x=3$, $w=2$ y $b=-1$, $y=5$. Con dos entradas, la suma ponderada es $z=w_1x_1+w_2x_2+b$ y una activación produce $a=f(z)$. ReLU, por ejemplo, conserva la parte positiva: $f(z)=\max(0,z)$.
+Piensa en una báscula que calcula cuánto pagarás por fruta. Introduces los kilos, la máquina los multiplica por el precio y entrega el importe. Una neurona artificial es también una función que recibe números y produce números. Su diferencia no es que tenga deseos o pensamientos: **sus factores de multiplicación pueden ajustarse a partir de ejemplos**.
 
-Con $x_1=2$, $x_2=3$, $w_1=0.5$, $w_2=-0.2$ y $b=0.1$, se obtiene $z=0.5$ y $a=0.5$. El programa `ejemplos/neurona.py` ejecuta exactamente esa cuenta.
+### De una entrada a una salida
 
-## Por qué hace falta una activación
+Usamos la expresión $z=wx+b$. Si $x$ es la entrada, $w$ es un peso y $b$ un sesgo. La letra $z$ designa el resultado antes de una posible función de activación. Si $x=3$, $w=2$ y $b=1$, entonces:
 
-Si solo apiláramos transformaciones lineales, varias capas podrían reducirse a una sola transformación lineal. Una activación no lineal permite construir fronteras y relaciones más variadas. No convierte a la máquina en un cerebro: cambia la forma matemática de la función.
+$$
+\begin{aligned}
+z&=wx+b\\
+ &=3(2)+1\\
+ &=7.
+\end{aligned}
+$$
 
-## Conceptos que se reutilizan
+El peso controla cuánto influye la entrada; el sesgo desplaza el resultado. **Un peso negativo no es un error:** indica que al aumentar esa entrada, la contribución disminuye. Si usamos $w=-2$, $b=1$ y $x=3$, obtenemos $z=-5$.
 
-Los parámetros son valores numéricos que el entrenamiento ajusta para que el modelo produzca resultados más útiles. En una neurona, pesos y sesgo son parámetros entrenables.
+### Varias entradas: una decisión basada en más de un dato
 
-| Concepto | ¿Se ajusta durante el entrenamiento? | Ejemplo |
-|---|---:|---|
-| Peso | Sí | $w = -0.2$ |
-| Sesgo | Sí | $b = 0.1$ |
-| Hiperparámetro | No directamente | tasa de aprendizaje $\eta$ |
-| Activación | No; es resultado | $a = 0.5$ |
-| Gradiente | Se calcula | $\frac{\partial L}{\partial w}$ |
-| Estado del optimizador | Se actualiza, pero no es el modelo | momento acumulado |
+Imagina que un detector de mensajes usa dos características numéricas: $x_1$ = cantidad de enlaces y $x_2$ = cantidad de expresiones sospechosas. En lugar de una entrada:
 
-Los parámetros no equivalen a respuestas almacenadas, palabras del vocabulario ni ejemplos completos. Son números distribuidos en matrices y tensores. En entrenamiento se inicializan, por ejemplo, con valores aleatorios pequeños; una mala escala inicial puede dificultar la optimización.
+$$z=w_1x_1+w_2x_2+b.$$
 
-## Una intuición cuantitativa
+Si $x_1=2$, $x_2=3$, $w_1=0.5$, $w_2=-0.2$ y $b=0.1$:
 
-Si $z = w_1 x_1 + w_2 x_2 + b$, aumentar $w_1$ hace que $x_1$ influya más. Cambiar $b$ mueve la frontera de activación. El efecto depende también de la escala de las entradas.
+$$
+\begin{aligned}
+z&=(0.5\times2)+(-0.2\times3)+0.1\\
+ &=1-0.6+0.1\\
+ &=0.5.
+\end{aligned}
+$$
 
-## Parámetros frente a hiperparámetros
+**Atención:** los números no expresan un detector real; solo muestran la operación. En un sistema de clasificación no bastaría sumar: necesitamos interpretar o transformar la salida.
 
-El tamaño de lote, el número de épocas y la tasa de aprendizaje se eligen para controlar el entrenamiento. No se infieren de la misma manera que los pesos. La distinción importa: “el modelo tiene 7B parámetros” no describe por sí sola sus datos, arquitectura o calidad.
+### Activaciones: por qué no basta con multiplicar y sumar
 
-## Errores frecuentes
+Una función de activación transforma $z$ en una salida $a=f(z)$. Un ejemplo es ReLU, cuyo nombre significa unidad lineal rectificada:
 
-- Contar una activación como un parámetro.
-- Llamar “peso” a cualquier número intermedio.
-- Suponer que más parámetros garantizan mejor respuesta.
-- Confundir el estado temporal del optimizador con parámetros finales.
+$$a=\operatorname{ReLU}(z)=\max(0,z).$$
 
-## Resumen y práctica
+Si $z=0.5$, la salida es $0.5$. Si $z=-5$, es $0$. Este cambio es importante: sin activaciones no lineales, apilar muchas capas densas lineales equivaldría a una sola transformación lineal, incluso si la red tuviera muchas capas.
 
-Un parámetro es ajustable; un hiperparámetro configura el proceso. Actividad: toma una neurona con dos entradas y construye una tabla de pesos entre $-1$ y $1$; observa cómo cambia $z$.
+Otros ejemplos son la función sigmoide, que transforma números en valores entre 0 y 1, y `tanh`, cuyo resultado está entre -1 y 1. El significado de una salida depende del objetivo de la red; no basta con interpretar cualquier número entre 0 y 1 como una probabilidad bien calibrada.
 
-Preguntas: ¿qué valor se ajusta para desplazar la salida sin cambiar entradas? ¿Qué ocurre si todos los pesos son cero? ¿Por qué necesitamos validar fuera de los ejemplos vistos?
+### ¿Cuántos parámetros contiene nuestra neurona?
 
-[Siguiente: contar parámetros →](04-calculo-de-parametros.md)
+Con dos entradas hay dos pesos y un sesgo: **tres parámetros entrenables**, si decidimos entrenarlos. Los valores de entrada no son parámetros. En el capítulo de entrenamiento veremos cómo cambian los pesos; aquí solo calculamos con los valores dados.
+
+### Comprobación con Python
+
+```python
+entradas = [2.0, 3.0]
+pesos = [0.5, -0.2]
+sesgo = 0.1
+z = sum(x*w for x,w in zip(entradas,pesos)) + sesgo
+a = max(0.0,z)
+print(z, a)  # 0.5 0.5
+```
+
+**Ejercicio 1.** Cambia $w_2$ a $0.2$. ¿Cuánto valen $z$ y $a$? **Solución:** $z=1+0.6+0.1=1.7$ y ReLU devuelve $1.7$.
+
+**Ejercicio 2.** Para $x=4$, $w=-1$, $b=2$, calcula ReLU. **Solución:** $z=-4+2=-2$, luego $a=0$.
+
+**Error habitual:** llamar «conocimiento» a cada peso individual. Las representaciones útiles surgen de relaciones entre muchos valores, no de un diccionario escondido en cada número.
+
+**Lo siguiente:** conectaremos muchas neuronas y veremos cómo sus cálculos forman una red.

@@ -1,19 +1,40 @@
-# 23. Memoria, conocimiento y razonamiento
+# 23. Memoria, contexto, conocimiento y razonamiento
 
-Una respuesta puede usar varias fuentes de información que conviene separar:
+## ¿Por qué una IA puede «recordar» tu nombre sin haber aprendido nuevos pesos?
 
-- **Pesos:** regularidades ajustadas durante el entrenamiento.
-- **Contexto:** texto presente en la solicitud.
-- **Historial:** mensajes que una aplicación vuelve a incluir.
-- **Memoria externa:** datos guardados fuera del modelo.
-- **RAG:** recuperación de documentos para enriquecer el contexto.
+Si una aplicación guarda «Mi nombre es Laura» en una base de datos, puede recuperar la frase en una conversación posterior y agregarla al prompt. El modelo responde «Laura» porque la información fue proporcionada como contexto. **Eso no significa que haya actualizado sus parámetros**.
 
-Recordar una conversación no demuestra que los pesos hayan cambiado. Reentrenar modifica parámetros; recuperar un documento modifica la entrada disponible. Esa diferencia permite diseñar sistemas más auditables.
+### Cuatro cosas distintas
 
-## ¿Razonar?
+| Concepto | Qué contiene | Qué cambia |
+|---|---|---|
+| Pesos del modelo | Números aprendidos | Normalmente solo con entrenamiento |
+| Contexto | Tokens de entrada actuales | Cambia en cada consulta |
+| Historial externo | Mensajes guardados | Cambia al guardar información |
+| Documentos recuperados | Datos consultados para responder | Cambian según búsqueda y fuentes |
 
-Un modelo puede producir pasos útiles, comparar alternativas o llamar herramientas. Eso es una capacidad observable del sistema, no una prueba de experiencia subjetiva. La planificación de un agente incluye modelo, memoria, reglas, herramientas y validadores.
+### ¿Qué es RAG?
 
-## Comprobación
+RAG significa *generación aumentada por recuperación*. Una aplicación recibe una pregunta, busca documentos relevantes, selecciona fragmentos y los añade al contexto del modelo. El modelo puede entonces utilizar esos fragmentos al redactar. Esto permite trabajar con información que no tiene que estar incluida en los pesos.
 
-Para cada respuesta de un asistente pregunta: ¿estaba en los pesos, en el contexto, en una fuente recuperada o fue inferida? La respuesta no garantiza verdad: una fuente externa también puede estar equivocada y una cadena de pasos puede contener un error.
+```mermaid
+flowchart LR
+  U[Pregunta] --> B[Buscador de documentos]
+  B --> C[Fragmentos relevantes]
+  C --> M[Modelo + contexto]
+  M --> R[Respuesta con referencias]
+```
+
+Si la búsqueda recupera documentos equivocados, la respuesta puede ser mala. Por eso conviene mostrar fuentes, comprobar fechas y evitar que el modelo trate instrucciones maliciosas contenidas en documentos como órdenes confiables.
+
+### ¿Qué significa razonar?
+
+En la práctica evaluamos si un sistema puede resolver problemas con pasos coherentes, comparar opciones o corregir errores. Esto describe **capacidades observables**; no implica demostrar conciencia ni pensamiento idéntico al humano. Los modelos de lenguaje pueden producir explicaciones convincentes y aun así cometer errores de lógica o aritmética.
+
+### ¿Por qué alucinan?
+
+Un sistema generativo puede producir una continuación lingüísticamente plausible que no corresponde con hechos verificables. No siempre sabe cuándo desconoce una respuesta. Mejoras posibles incluyen búsqueda confiable, cálculo externo, verificación y límites sobre tareas sensibles.
+
+**Ejercicio.** Un chatbot responde hoy el horario de una biblioteca usando únicamente sus pesos de hace años. ¿Qué le falta? **Una fuente actualizada** si necesita confirmar el horario vigente.
+
+**Siguiente:** [modelo, aplicación y agente](24-sistemas-de-ia.md).

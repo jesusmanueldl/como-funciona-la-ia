@@ -1,25 +1,70 @@
-# 7. ¿Cómo aprende una máquina? El entrenamiento desde cero
+# 7. ¿Cómo aprende una máquina? Entrenamiento paso a paso
 
-Comenzamos con la relación $y=2x$. Si el modelo usa $\hat y=wx$, con $x=1$, $y=2$ y $w=0$, predice 0. La pérdida $L=(\hat y-y)^2$ vale 4. El gradiente $\partial L/\partial w=2(wx-y)x$ vale -4, así que con $\eta=0.1$ el peso pasa a $0.4$.
+## Una calculadora que se equivoca y mejora
 
-Después de tres pasos el peso se acerca a 2, aunque todavía no es perfecto. Esto ilustra descenso de gradiente; en una red profunda, la retropropagación aplica la regla de la cadena para calcular contribuciones en muchas capas. Lotes, épocas y optimizadores organizan el proceso, mientras la validación comprueba generalización.
+Queremos que una pequeña máquina aprenda a duplicar un número. Le enseñamos que $x=1$ debe producir $y=2$. Nuestro modelo elemental es $\hat y=wx$, donde $w$ es un peso inicialmente desconocido y $\hat y$ es lo que el modelo predice.
 
-## El modelo de lenguaje como aplicación
+Si empezamos con $w=0$, el modelo predice $0$: todavía no sabe duplicar. ¿Cómo podemos orientarlo para acercarse a la respuesta correcta sin decirle directamente que $w=2$?
 
-Un modelo de lenguaje asigna probabilidades a secuencias. En predicción del siguiente token estima:
+### Medir el error
 
-$$
-P\left(x_t \mid x_1, x_2, \ldots, x_{t-1}\right).
-$$
+Elegimos una pérdida cuadrática:
 
-La barra significa “probabilidad de $x_t$ dado el contexto anterior”. Con “El cielo es”, tokens como “azul” pueden recibir mayor probabilidad que una palabra sin relación. Eso es una predicción estadística, no una consulta a una lista de frases completas.
+$$L=(\hat y-y)^2=(wx-y)^2.$$
 
-Un token puede ser una palabra, fragmento, carácter o byte según el tokenizador. La división “Hola, ¿cómo estás?” en `Hola`, `,`, `¿cómo`, `estás`, `?` es ilustrativa: cada tokenizador real puede dividirla de otra forma.
+Al principio, con $w=0$, $x=1$ y $y=2$:
 
-El vocabulario asigna un entero a cada token. El texto se convierte en IDs, los IDs en vectores y el modelo calcula una distribución para el siguiente ID.
+$$L=(0\times1-2)^2=4.$$
 
-**Errores frecuentes:** token no es sinónimo de palabra; el modelo no necesita guardar todas las respuestas; una probabilidad alta no implica verdad.
+La pérdida es un número que resume lo mal que salió la predicción **según la regla que elegimos**. No existe una única función de pérdida correcta para todos los problemas.
 
-**Práctica:** ejecuta `ejemplos/tokenizacion.py` y cambia el texto. Preguntas: ¿por qué una palabra rara puede ocupar varios tokens?, ¿qué información aporta el contexto?
+### Descubrir hacia dónde mover el peso
 
-[Siguiente →](08-embeddings.md)
+Necesitamos saber cómo cambia la pérdida si movemos ligeramente $w$. Una **derivada** mide esta sensibilidad. Para esta función:
+
+$$\frac{\partial L}{\partial w}=2(wx-y)x.$$
+
+La expresión $\partial L/\partial w$ significa «cómo cambia $L$ cuando cambia $w$». Con nuestros datos:
+
+$$2(0\times1-2)(1)=-4.$$
+
+El gradiente es negativo: aumentar $w$ un poco reduce inicialmente la pérdida. Utilizamos una **tasa de aprendizaje** $\eta=0.1$ para controlar el tamaño del cambio:
+
+$$w_{\text{nuevo}}=w_{\text{anterior}}-\eta\frac{\partial L}{\partial w}.$$
+
+Primer cambio: $w_1=0-0.1(-4)=0.4$.
+
+### Tres iteraciones completas
+
+| Paso | Peso inicial | Predicción | Pérdida | Gradiente | Peso nuevo |
+|---:|---:|---:|---:|---:|---:|
+| 1 | 0.000 | 0.000 | 4.0000 | -4.000 | 0.400 |
+| 2 | 0.400 | 0.400 | 2.5600 | -3.200 | 0.720 |
+| 3 | 0.720 | 0.720 | 1.6384 | -2.560 | 0.976 |
+
+En el segundo paso: $L=(0.4-2)^2=2.56$, gradiente $2(0.4-2)=-3.2$, nuevo peso $0.4-0.1(-3.2)=0.72$.
+
+En el tercero: $L=(0.72-2)^2=1.6384$, gradiente $-2.56$, peso $0.976$. El peso sigue sin ser 2, pero se acerca.
+
+### Del ejemplo pequeño al entrenamiento real
+
+Las redes modernas reciben muchos ejemplos organizados en **lotes**. En cada paso calculan predicciones, pérdidas y gradientes para muchos parámetros. La **retropropagación** usa la regla de la cadena para obtener derivadas de las capas anteriores; un **optimizador** actualiza los pesos. Una **época** es un recorrido completo por el conjunto de entrenamiento, aunque no todos los sistemas de gran escala describen su progreso solo mediante épocas.
+
+### ¿Aprendió de verdad?
+
+El ejemplo ajusta un solo parámetro con una sola muestra; no prueba generalización. Un modelo útil debe evaluarse con ejemplos no utilizados para entrenar. Entrenamiento, validación y prueba cumplen objetivos diferentes. Veremos cómo separar los datos en el siguiente capítulo.
+
+```python
+w, x, y, eta = 0.0, 1.0, 2.0, 0.1
+for paso in range(1, 4):
+    pred = w*x
+    perdida = (pred-y)**2
+    grad = 2*(pred-y)*x
+    nuevo = w-eta*grad
+    print(paso, round(w,3), round(pred,3), round(perdida,4), round(grad,3), round(nuevo,3))
+    w = nuevo
+```
+
+**Autoevaluación.** ¿Qué ocurriría si $\eta$ fuera demasiado grande? El entrenamiento podría oscilar o divergir. ¿Se modifican los pesos al ejecutar una predicción sin entrenamiento? Normalmente no.
+
+**Siguiente:** [datos y conjuntos de evaluación](08-embeddings.md).

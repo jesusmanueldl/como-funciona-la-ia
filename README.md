@@ -46,38 +46,38 @@ flowchart LR
 
 5. [¿Qué son realmente los parámetros?](docs/05-entrenamiento.md)
 6. [¿Cómo se calcula el número de parámetros?](docs/06-preentrenamiento.md)
-7. [¿Cómo aprende una máquina?](docs/07-modelos-de-lenguaje.md)
+7. [¿Cómo aprende una máquina? Entrenamiento paso a paso](docs/07-modelos-de-lenguaje.md)
 8. [¿De dónde obtiene los datos una IA?](docs/08-embeddings.md)
-9. [Tipos de aprendizaje](docs/09-transformers.md)
+9. [Tipos de aprendizaje: supervisado, autosupervisado y más](docs/09-transformers.md)
 
 ### Parte III — Estados y entrenamiento de modelos
 
 10. [¿Qué es un modelo sin entrenar?](docs/10-llm.md)
 11. [¿Qué es un modelo parcialmente entrenado?](docs/11-inferencia.md)
 12. [¿Qué es un modelo preentrenado?](docs/12-memoria-y-contexto.md)
-13. [¿Qué es fine-tuning y qué es LoRA?](docs/13-cuantizacion.md)
-14. [¿Cómo entrenar un modelo propio?](docs/14-ejecucion-de-modelos.md)
-15. [¿Cómo entrenar un pequeño modelo de lenguaje?](docs/15-razonamiento.md)
+13. [Ajuste fino, transferencia de aprendizaje y LoRA](docs/13-cuantizacion.md)
+14. [Cómo entrenar un modelo propio: tutorial completo](docs/14-ejecucion-de-modelos.md)
+15. [Entrenar un modelo de lenguaje pequeño](docs/15-razonamiento.md)
 
 ### Parte IV — Modelos de lenguaje
 
 16. [¿Qué es un modelo de lenguaje?](docs/16-ia-llm-agentes.md)
 17. [Tokens, embeddings y representaciones](docs/17-agentes.md)
-18. [¿Cómo funciona un Transformer?](docs/18-experimentos.md)
-19. [¿Qué es un LLM?](docs/19-preguntas-frecuentes.md)
-20. [¿Cómo genera una respuesta un modelo?](docs/20-glosario.md)
+18. [Transformers y mecanismo de atención, desde la intuición](docs/18-experimentos.md)
+19. [¿Qué es un LLM y por qué su tamaño importa?](docs/19-preguntas-frecuentes.md)
+20. [Inferencia: cómo genera una respuesta un modelo](docs/20-glosario.md)
 
 ### Parte V — Ejecución, memoria y agentes
 
-21. [¿Cómo se almacena y ejecuta un modelo?](docs/21-ejecucion-y-memoria.md)
-22. [¿Qué es la cuantización?](docs/22-cuantizacion.md)
-23. [Memoria, conocimiento y razonamiento](docs/23-memoria-razonamiento.md)
-24. [IA, LLM, chatbot, asistente y agente](docs/24-sistemas-de-ia.md)
-25. [¿Cómo funciona un agente de IA?](docs/25-agentes.md)
+21. [Cómo se almacena y ejecuta un modelo de IA](docs/21-ejecucion-y-memoria.md)
+22. [Cuantización: por qué algunos modelos ocupan menos](docs/22-cuantizacion.md)
+23. [Memoria, contexto, conocimiento y razonamiento](docs/23-memoria-razonamiento.md)
+24. [IA, modelos, LLM, chatbots, asistentes y agentes](docs/24-sistemas-de-ia.md)
+25. [Cómo funciona un agente de IA con herramientas](docs/25-agentes.md)
 
 ### Parte VI — Experimentación y consulta
 
-26. [Laboratorio, preguntas frecuentes y conclusiones](docs/26-laboratorio.md)
+26. [Laboratorio práctico y conclusiones](docs/26-laboratorio.md)
 
 La [matriz de conceptos](docs/matriz-conceptos.md) explica cómo se relacionan las partes y sirve como mapa de repaso.
 
@@ -117,6 +117,9 @@ python ejemplos/contar_parametros.py
 python ejemplos/descenso_gradiente.py
 python ejemplos/entrenar_modelo.py
 python ejemplos/modelo_lenguaje_pequeno.py
+python ejemplos/verificar_conceptos.py
+python ejemplos/tutorial_entrenar_desde_cero.py
+python ejemplos/bigramas_explicados.py
 ```
 
 La versión opcional con PyTorch está en `ejemplos/entrenar_pytorch.py`; requiere instalar la dependencia por separado y no es necesaria para ejecutar las pruebas básicas.

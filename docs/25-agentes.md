@@ -1,25 +1,50 @@
-# 25. ¿Cómo funciona un agente de IA?
+# 25. Cómo funciona un agente de IA con herramientas
 
-## Del objetivo a la observación
+## De responder preguntas a completar tareas
 
-Un agente recibe un objetivo, propone un plan, selecciona una herramienta, valida argumentos, ejecuta dentro de permisos y observa el resultado. El ciclo puede repetirse, pero una acción sensible debe detenerse para pedir confirmación.
+Imagina que pides: «Comprueba si mañana lloverá y prepara una lista de cosas que debo llevar». Un modelo de lenguaje puede redactar una lista genérica. Un **agente** podría consultar una herramienta meteorológica autorizada, leer el resultado, preparar una recomendación y mostrar qué fuente utilizó.
+
+### El ciclo de un agente
 
 ```mermaid
-flowchart LR
-  O[Objetivo] --> P[Planificación]
-  P --> T[Herramienta]
-  T --> V[Validación y permisos]
-  V --> E[Ejecución]
-  E --> R[Observación]
-  R --> P
+flowchart TD
+  U[Usuario y objetivo] --> P[Interpretar o planificar]
+  P --> T[Proponer herramienta y argumentos]
+  T --> V{Validar permisos y esquema}
+  V -- No --> X[Rechazar o pedir aclaración]
+  V -- Sí --> E[Ejecutar herramienta]
+  E --> O[Observar resultado o error]
+  O --> D{Objetivo resuelto}
+  D -- No --> P
+  D -- Sí --> R[Respuesta y trazabilidad]
 ```
 
-El agente simulado de `ejemplos/agente_simulado.py` solo consulta un pronóstico ficticio. Rechaza herramientas desconocidas y ciudades vacías: la validación es una barrera, no una garantía absoluta.
+### Una instrucción estructurada
 
-## Ejemplo
+En vez de entregar a una herramienta texto ambiguo, una aplicación puede solicitar al modelo una estructura:
 
-Para “consulta el clima de Villahermosa y prepara un resumen”, el modelo propone una llamada; el validador comprueba que la herramienta y la ciudad están permitidas; la herramienta devuelve datos; el modelo redacta el resumen. No se debe presentar un dato inventado como actual.
+```json
+{
+  "herramienta": "pronostico",
+  "argumentos": {"ciudad": "Ciudad de ejemplo"},
+  "requiere_confirmacion": false
+}
+```
 
-## Autoevaluación
+**El JSON no ejecuta nada por sí mismo.** Una aplicación lo interpreta, comprueba que `pronostico` sea una herramienta permitida, valida los argumentos y llama al servicio correspondiente. Si el modelo inventa un nombre de herramienta, debe rechazarse.
 
-¿Qué cambia si la herramienta falla? El agente debe conservar el error, informar la limitación y no fingir éxito. ¿Qué requiere confirmación? Enviar dinero, borrar datos o modificar una cuenta, aunque el modelo haya producido una instrucción válida.
+### Qué pasa si falla la herramienta
+
+Una API puede devolver error, no tener datos o no responder. El agente no debería inventar que la tarea terminó; debe informar el fallo, reintentar si corresponde o solicitar ayuda. El sistema necesita límites de pasos y tiempo para evitar bucles.
+
+### Confirmación para acciones sensibles
+
+Consultar un dato público puede requerir menos controles que enviar un mensaje, realizar una compra, borrar archivos o cambiar configuraciones. Esas acciones deben condicionarse a permisos y confirmaciones apropiadas. No basta con incluir en un JSON `requiere_confirmacion:false`: **el servidor o la aplicación deben aplicar su propia política de autorización**.
+
+### El modelo no controla mágicamente un dispositivo
+
+Un LLM puede proponer «abrir aplicación», pero quien ejecuta esa operación es el programa que dispone de APIs y permisos. La separación entre generación de texto y acción real evita confundir capacidad lingüística con poder operativo.
+
+**Práctica:** ejecuta `ejemplos/agente_simulado.py`; identifica cuándo una acción se rechaza, cuándo necesita confirmación y qué información se registra. **Ejercicio:** si una herramienta devuelve un pronóstico vacío, la respuesta correcta debe declarar la ausencia de datos y no inventar lluvia.
+
+**Siguiente:** [laboratorio y preguntas frecuentes](26-laboratorio.md).

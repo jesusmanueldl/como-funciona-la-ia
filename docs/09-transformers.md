@@ -1,40 +1,41 @@
-# 9. Tipos de aprendizaje
+# 9. Tipos de aprendizaje: supervisado, autosupervisado y más
 
-Con fotografías de frutas, el aprendizaje **supervisado** usa etiquetas; el **no supervisado** busca estructura sin etiquetas; el **autosupervisado** crea objetivos desde los propios datos; el **semisupervisado** combina ejemplos etiquetados y sin etiquetar; el **aprendizaje por refuerzo** aprende de recompensas y consecuencias.
+## ¿Quién le dice a la máquina la respuesta correcta?
 
-Semisupervisado describe el método de datos, no un modelo “a medias”. Elegir depende de qué señales existen, qué error importa y cómo se evaluará el resultado.
+Imagina una caja de fotografías de frutas. Algunas tienen una etiqueta que dice «manzana» o «naranja» y otras no. Según cómo utilicemos esas fotografías, distinguimos varias formas de aprendizaje.
 
-```mermaid
-flowchart LR
-  S[Datos etiquetados + sin etiquetar] --> SS[Aprendizaje semisupervisado]
-  E[Datos etiquetados] --> SUP[Supervisado]
-  U[Datos sin etiquetar] --> UNS[No supervisado]
-```
+### Supervisado: ejemplos con respuesta
 
-## Atención y Transformers
+Le mostramos una foto junto con su etiqueta. El sistema predice, compara con la etiqueta y ajusta parámetros para disminuir su error. Se utiliza en clasificación y regresión; por ejemplo, predecir un precio numérico en lugar de una categoría.
 
-La arquitectura Transformer procesa secuencias con atención y capas feed-forward. En self-attention cada posición calcula qué otras posiciones son relevantes.
+### No supervisado: buscar estructura sin etiquetas de destino
 
-$$
-\operatorname{Attention}(Q, K, V)
- = \operatorname{softmax}\left(\frac{QK^{\mathsf{T}}}{\sqrt{d_k}}\right)V.
-$$
+Le damos fotografías sin decir qué fruta representa cada una. Un algoritmo puede agrupar imágenes parecidas. El resultado no tiene por qué coincidir con las categorías humanas: quizá agrupe por color o iluminación. El objetivo es encontrar estructura, no necesariamente predecir una etiqueta.
 
-$Q$ (query) pregunta, $K$ (key) describe qué ofrece cada posición, $V$ (value) contiene la información agregada y $d_k$ es la dimensión de las claves. $QK^{\mathsf{T}}$ produce compatibilidades; dividir estabiliza escalas; softmax convierte cada fila en pesos que suman 1.
+### Autosupervisado: fabricar un objetivo a partir del propio dato
 
-Ejemplo simplificado: si una consulta produce puntuaciones $[2, 1]$, $\operatorname{softmax}$ asigna aproximadamente $[0.73, 0.27]$; la salida pondera 73 % del primer valor y 27 % del segundo.
+Si tenemos la secuencia «El perro duerme en la ___», podemos ocultar o predecir una parte usando el resto. El dato contiene información necesaria para construir el objetivo. Muchos modelos de lenguaje modernos utilizan tareas autosupervisadas en su preentrenamiento.
 
-La atención causal impide usar tokens futuros al predecir el siguiente. La atención multicabeza calcula varios patrones; las conexiones residuales y la normalización ayudan al entrenamiento. La posición se incorpora mediante representaciones posicionales.
+### Semisupervisado: pocos ejemplos etiquetados y muchos sin etiquetar
 
-```mermaid
-flowchart LR
-  T[Tokens + posición] --> QKV[Proyecciones Q K V]
-  QKV --> A[Atención causal]
-  A --> R[Residual + normalización]
-  R --> F[Feed-forward]
-  F --> O[Salida de bloque]
-```
+Quizá solo 50 fotos tengan etiquetas y otras 5 000 no. Podemos combinar ambas colecciones mediante métodos apropiados. **Semisupervisado no significa «entrenado a medias».** Esa última expresión solo describe, informalmente, cuánto ha avanzado un proceso.
 
-Atención matemática no es atención humana ni prueba de conciencia. Preguntas: ¿por qué no se puede mirar el futuro?, ¿qué dimensión escala la fórmula?, ¿qué significa que los pesos sumen 1?
+### Aprendizaje por refuerzo: aprender a partir de recompensas
 
-[Siguiente →](10-llm.md)
+Un agente simulado realiza acciones en un entorno y recibe recompensas o penalizaciones. Busca una estrategia para acumular recompensas a lo largo del tiempo. No siempre recibe una respuesta correcta por cada decisión. La elección de recompensas puede llevar a comportamientos inesperados si el objetivo está mal especificado.
+
+| Enfoque | Qué recibe | Qué trata de aprender |
+|---|---|---|
+| Supervisado | Entradas y etiquetas | Predecir etiquetas o valores |
+| No supervisado | Entradas sin etiqueta objetivo | Encontrar estructura |
+| Autosupervisado | Datos con objetivo derivado de ellos | Aprender representaciones y predicciones |
+| Semisupervisado | Pocos datos etiquetados y muchos sin etiquetar | Aprovechar ambas fuentes |
+| Por refuerzo | Interacciones y recompensas | Seleccionar acciones útiles |
+
+### El mismo problema, distintas estrategias
+
+Para clasificar correos, el supervisado usa correos etiquetados. El no supervisado podría agrupar mensajes parecidos sin llamar «spam» a ninguno. El autosupervisado puede aprender representaciones de los textos prediciendo fragmentos. El semisupervisado combina mensajes etiquetados y no etiquetados. El refuerzo podría optimizar decisiones de un sistema interactivo, pero no es la opción más directa para una primera clasificación de spam.
+
+**Ejercicio.** Un sistema practica un videojuego y recibe puntos según sus acciones. **Solución:** es un escenario típico de aprendizaje por refuerzo. Un modelo que predice palabras a partir de textos sin etiquetas externas utiliza una tarea autosupervisada.
+
+**Siguiente:** [un modelo antes de aprender](10-llm.md).

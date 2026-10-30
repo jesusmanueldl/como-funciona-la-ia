@@ -1,20 +1,46 @@
-# 24. IA, LLM, chatbot, asistente y agente
+# 24. IA, modelos, LLM, chatbots, asistentes y agentes
 
-Imagina una app del clima. El modelo estima lenguaje; la interfaz muestra botones; una API aporta datos; los permisos deciden qué acciones son posibles. Es un sistema de IA completo, no una sola cosa.
+## Un motor no es un automóvil completo
 
-| Término | Alcance | Ejemplo |
-|---|---|---|
-| IA | Campo amplio | clasificación, planificación o percepción |
-| Modelo | Componente entrenado | red que transforma números |
-| Modelo de lenguaje | Modelo que estima secuencias | predicción de tokens |
-| LLM | Modelo de lenguaje grande | muchas capas y parámetros |
-| Chatbot | Aplicación conversacional | ventana de preguntas |
-| Asistente | Sistema orientado a ayudar | organiza una agenda |
-| Agente | Sistema con objetivo, acciones y observación | consulta y valida una API |
-| Multiagente | Varios agentes coordinados | investigador y verificador |
+El motor transforma energía en movimiento, pero el automóvil incluye dirección, frenos, sensores y controles. Algo semejante sucede con un **modelo de IA** y una **aplicación**: el modelo produce predicciones, mientras que el sistema completo organiza entradas, permisos, herramientas, interfaz y resultados.
 
-No todos los chatbots son agentes, no todos los agentes usan LLM y no todos los modelos son generativos. La palabra “inteligente” describe una función o conducta del sistema, no necesariamente una mente.
+### Conceptos sin confusión
 
-## Práctica
+- **Inteligencia artificial:** campo amplio que desarrolla métodos y sistemas capaces de tareas como predicción, percepción, planificación o generación.
+- **Modelo de IA:** componente matemático o computacional ajustado para realizar tareas; puede ser un clasificador, una red de visión o un modelo generativo.
+- **Modelo de lenguaje:** aprende regularidades de secuencias lingüísticas y permite calcular o generar texto, según su diseño.
+- **LLM:** modelo de lenguaje de gran escala; un tipo particular de modelo de IA.
+- **Chatbot:** aplicación que interactúa mediante mensajes. Puede utilizar reglas, un LLM o combinar ambos.
+- **Asistente:** aplicación orientada a apoyar tareas de un usuario; puede tener o no herramientas.
+- **Agente de IA:** sistema que, dentro de objetivos y límites, selecciona acciones, utiliza herramientas y observa resultados.
+- **Sistema multiagente:** coordinación de múltiples agentes o componentes agentes.
 
-Etiqueta una app real con cinco componentes: modelo, interfaz, fuente de datos, herramienta y permiso. Si no puedes señalar uno, explica qué información falta.
+### Un solo pedido, diferentes capacidades
+
+Usuario: «Dime el clima de mañana y prepara un resumen».
+
+Un **modelo de lenguaje aislado** puede interpretar la solicitud y producir texto, pero no consulta automáticamente datos meteorológicos recientes. Un **chatbot** podría limitarse a responder con una explicación. Un **agente** con herramienta de consulta, validación y permisos puede obtener el pronóstico, evaluar la respuesta y redactar el resumen, siempre que se le haya dado ese acceso.
+
+### ¿Todos los agentes usan LLM?
+
+No. Un agente de videojuegos puede seguir reglas, búsqueda o aprendizaje por refuerzo sin un gran modelo de lenguaje. Asimismo, integrar un LLM en un chat no convierte automáticamente la aplicación en un agente.
+
+### Diagrama de relaciones
+
+```mermaid
+flowchart TD
+  IA[Inteligencia artificial] --> ML[Aprendizaje automático]
+  ML --> DL[Aprendizaje profundo]
+  DL --> LM[Modelos de lenguaje neuronales]
+  LM --> LLM[LLM]
+  LLM -.-> APP[Puede integrarse en una aplicación]
+  APP --> CHAT[Chatbot]
+  APP --> AG[Agente con herramientas]
+  IA -.-> AG
+```
+
+El diagrama muestra relaciones habituales, no una jerarquía estricta: también existen modelos de lenguaje no neuronales, y un agente puede usar otros métodos.
+
+**Ejercicio:** clasifica un filtro de spam, un buscador tradicional, una aplicación de chat con LLM y un robot con planificación. Explica qué parte es modelo, qué parte es sistema y qué herramientas utiliza cada uno.
+
+**Siguiente:** [ciclo completo de un agente](25-agentes.md).
