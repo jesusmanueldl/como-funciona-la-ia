@@ -1,25 +1,37 @@
 # 10. ¿Qué es un modelo sin entrenar?
 
-Una arquitectura puede estar definida antes de aprender patrones útiles. Sus pesos tienen valores iniciales, quizá aleatorios o calculados con una estrategia de inicialización, pero la red todavía no ha optimizado su objetivo. Una demostración consiste en ejecutar `ejemplos/neurona.py` con pesos arbitrarios y comparar sus predicciones antes de ajustar nada.
+## Una máquina recién construida todavía no sabe hacer su trabajo
 
-## Modelo y arquitectura
+Puedes construir un instrumento musical perfecto, pero eso no significa que interprete una melodía por sí solo. Algo parecido ocurre con una red neuronal: definir su arquitectura no implica que ya haya aprendido una tarea.
 
-La arquitectura describe capas y operaciones; los pesos son el estado numérico. La función de pérdida define qué significa equivocarse. Tener una arquitectura compleja no equivale a tener conocimiento.
+### Arquitectura y pesos son cosas distintas
+
+La **arquitectura** especifica cuántas capas hay, qué operaciones realizan y cómo se conectan. Los **pesos** son los números concretos utilizados en esas operaciones. Una arquitectura puede existir con pesos inicializados sin haber recibido datos de entrenamiento.
+
+Imagina $\hat y=wx$ y el objetivo $y=2x$. Si $w=0$, para $x=3$ predice $0$ y la respuesta correcta sería $6$. Si $w=0.5$, predice $1.5$. Ninguno de esos números demuestra que haya aprendido: simplemente indican su punto de partida.
+
+### ¿Por qué no empezar siempre con todos los pesos en cero?
+
+En una regresión lineal elemental puede hacerse. En redes con muchas neuronas simétricas, inicializar pesos idénticos puede provocar que varias aprendan exactamente el mismo patrón. Existen inicializaciones que utilizan escalas dependientes de las dimensiones para mantener las señales en rangos convenientes.
+
+### ¿Qué necesita para empezar a aprender?
+
+Una tarea, ejemplos, una función de pérdida, un método para calcular gradientes y un optimizador. Durante el entrenamiento se ajustan parámetros. Durante una ejecución normal de inferencia, los pesos se mantienen.
 
 ```mermaid
 flowchart LR
-  A[Modelo sin entrenar] --> B[Entrenamiento]
-  B --> C[Modelo entrenado]
+  A[Arquitectura definida] --> B[Pesos inicializados]
+  B --> C[Entrenamiento con datos]
+  C --> D[Pesos ajustados]
+  D --> E[Evaluación]
 ```
 
-## LLM como ampliación
+### ¿Podemos usar un modelo sin entrenar?
 
-LLM significa *Large Language Model*: modelo de lenguaje grande. No hay un umbral universal que separe “grande” de “pequeño”. Importan parámetros, arquitectura, datos, contexto, calidad de entrenamiento y eficiencia.
+Sí: para probar dimensiones, ejecutar cálculos o comprobar que un programa funciona. Pero sus predicciones carecen, en general, de aprendizaje útil para el problema. Un generador de texto sin entrenamiento puede producir resultados arbitrarios porque no ha ajustado las regularidades del lenguaje.
 
-Como escala hipotética, 0.5B, 1B, 3B, 7B y 70B indican aproximadamente cientos de millones o miles de millones de parámetros. Más parámetros pueden aumentar capacidad, pero no garantizan mejores datos, seguridad, razonamiento o factualidad.
+**Ejercicio resuelto.** Con $w=0.5$, $x=4$ y objetivo $y=8$: $\hat y=2$ y $L=(2-8)^2=36$. No basta con decir «el modelo se equivocó»: debemos expresar cuánto y cómo podríamos corregirlo.
 
-Un LLM contiene capas que transforman IDs y representaciones; no contiene una biblioteca literal de respuestas. La conducta surge de la interacción entre pesos, entrada, decodificación y, si existe, herramientas externas.
+**Confusión común:** «sin entrenar» no significa «sin parámetros». Puede tener millones de parámetros inicializados y aun así carecer de entrenamiento útil.
 
-**Actividad:** compara dos modelos hipotéticos con igual número de parámetros pero datos y contexto distintos. ¿Por qué no puedes concluir cuál responde mejor solo por el tamaño?
-
-[Siguiente →](11-inferencia.md)
+**Siguiente:** [qué ocurre a mitad del entrenamiento](11-inferencia.md).

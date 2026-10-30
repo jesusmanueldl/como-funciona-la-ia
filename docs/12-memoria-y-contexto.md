@@ -1,23 +1,35 @@
 # 12. ¿Qué es un modelo preentrenado?
 
-Una persona puede aprender habilidades generales antes de estudiar un dominio técnico. Un modelo preentrenado es análogo en ese sentido: ya pasó por una etapa previa y sus pesos se reutilizan. No significa “entrenado a medias”. Puede existir un modelo base, uno ajustado a instrucciones o uno especializado en un dominio.
+## Aprender a leer antes de estudiar medicina
 
-Los pesos aprendidos se convierten en un punto de partida; la calidad depende de datos, objetivo y evaluación. El contexto y la memoria externa son mecanismos distintos de los pesos.
+Una persona que ya sabe leer, escribir y comprender textos puede aprender después vocabulario médico más rápidamente que alguien que empieza desde cero. Esta analogía ayuda a entender el **preentrenamiento**: un modelo aprende patrones generales en una fase anterior y luego sus pesos pueden reutilizarse para una tarea o dominio.
 
-## Memoria, contexto y conocimiento
+### Lo que ocurre en el preentrenamiento
 
-Hay varias cosas llamadas “memoria”:
+En un modelo de lenguaje, una tarea frecuente es predecir tokens a partir de otros tokens. El proceso ajusta parámetros mediante muchísimos ejemplos de texto. Un modelo preentrenado puede aprender regularidades del lenguaje, relaciones estadísticas y ciertas habilidades generales. No implica que sea infalible ni que todas sus respuestas sean ciertas.
 
-- pesos: patrones incorporados durante entrenamiento;
-- contexto: texto temporal enviado en una solicitud;
-- historial: contexto acumulado por una aplicación;
-- base de datos: información externa persistente;
-- RAG: recuperar documentos y añadirlos al contexto.
+```mermaid
+flowchart LR
+  A[Arquitectura + inicialización] --> B[Preentrenamiento]
+  B --> C[Modelo base preentrenado]
+  C --> D[Ajuste especializado o de instrucciones]
+  D --> E[Modelo adaptado]
+```
 
-Un sistema RAG puede indexar documentos, buscar fragmentos relevantes y dárselos al modelo. Eso puede mejorar actualidad y trazabilidad sin modificar pesos. También introduce problemas: documentos incompletos, permisos, inyección de instrucciones y recuperación equivocada.
+### ¿Preentrenado significa incompleto?
 
-Recordar una conversación no demuestra que el modelo haya aprendido mediante actualización de parámetros. La ventana de contexto limita cuánto texto puede procesarse en una solicitud.
+No. El prefijo «pre-» indica una fase anterior a otra posible etapa, no que se haya detenido accidentalmente a mitad de un proceso. Un modelo base preentrenado puede estar plenamente terminado según su objetivo de preentrenamiento, aunque no sea especialmente adecuado para mantener conversaciones obedeciendo instrucciones.
 
-Actividad: diseña un flujo que almacene preferencias en una tabla, recupere solo las autorizadas y las incluya con una marca de fuente.
+### Modelo base, modelo instruct y especialización
 
-[Siguiente →](13-cuantizacion.md)
+Un modelo **base** se ha entrenado para tareas generales de modelado. Un modelo **ajustado para instrucciones** recibe entrenamiento adicional para responder a solicitudes humanas siguiendo formatos y comportamientos deseados. Un modelo **especializado** puede adaptarse a documentos legales, lenguaje técnico u otra tarea, siempre con validación adecuada.
+
+### Transferencia de aprendizaje
+
+Si los pesos ya capturan patrones útiles, podemos reutilizarlos en lugar de aprender absolutamente todo desde cero. A esto se le llama **transferencia de aprendizaje**. Algunas capas pueden congelarse y otras entrenarse; también es posible ajustar todos los pesos.
+
+**Ejercicio:** imagina que tienes 100 ejemplos etiquetados para clasificar mensajes y dispones de un modelo que ya procesa lenguaje. ¿Qué ventaja potencial tiene reutilizarlo? **Respuesta:** puede aportar representaciones previas útiles, reduciendo la cantidad de datos o cómputo necesarios, aunque no garantiza buen rendimiento.
+
+**No confundir:** la memoria de una conversación con el preentrenamiento. Guardar «me llamo Ana» en una base de datos y recuperarlo después no modifica por sí mismo los pesos.
+
+**Siguiente:** [cómo adaptar un modelo existente](13-cuantizacion.md).

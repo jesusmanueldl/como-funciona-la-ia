@@ -1,41 +1,44 @@
-# 13. ¿Qué es fine-tuning y qué es LoRA?
+# 13. Ajuste fino, transferencia de aprendizaje y LoRA
 
-El ajuste fino adapta un modelo preentrenado a una tarea o estilo. Puede actualizar todos los pesos, solo algunas capas o adaptadores. PEFT agrupa estrategias que reducen los parámetros entrenables; LoRA aprende matrices de baja dimensión que se combinan con pesos congelados y QLoRA añade cuantización al flujo.
+## ¿Es necesario reentrenar todos los números?
 
-LoRA no es siempre superior: ahorra memoria y facilita varios adaptadores, pero puede limitarse si la tarea exige cambios amplios. Hay que evaluar sobre datos no vistos y vigilar sobreajuste. Un ejemplo hipotético: si una capa tiene 1,000,000 de pesos y un adaptador entrena 20,000, solo esos 20,000 se actualizan en esa etapa.
+Imagina un modelo que ya aprendió a procesar textos generales. Ahora queremos que clasifique reseñas de productos. Podríamos entrenar una red nueva desde cero, pero también podemos **ajustar** el modelo existente con ejemplos apropiados para la nueva tarea.
 
-```mermaid
-flowchart LR
-  A[Modelo preentrenado] --> B[Ajuste fino]
-  B --> C[Modelo especializado]
-  A --> D[Pesos congelados + LoRA]
-  D --> C
-```
+### Ajuste fino completo
 
-## Precisión numérica y cuantización
+En el **fine-tuning completo** se permiten actualizaciones en todos o en gran parte de los parámetros del modelo. Esto ofrece flexibilidad, pero puede exigir bastante memoria y cómputo. También existe el riesgo de degradar capacidades útiles si los datos o el procedimiento son deficientes.
 
-Bits codifican valores. FP32 usa 32 bits, FP16 16, BF16 conserva más rango con menos precisión, INT8 usa enteros de 8 bits y Q4 suele referirse a pesos de aproximadamente 4 bits con escalas auxiliares.
+### Congelar componentes
 
-El tamaño teórico de pesos es:
+Otra posibilidad es conservar fijos los pesos de una parte del modelo y entrenar solo una capa de salida. Si el modelo tiene $1\,000\,000$ parámetros y solo $10\,000$ son entrenables, el optimizador actualiza esos $10\,000$; los otros siguen participando en el cálculo de la salida.
 
-$$
-\text{bytes}
- = \frac{\text{parámetros} \times \text{bits por parámetro}}{8}.
-$$
+### LoRA con una matriz pequeña
 
-Para 1,000 millones a 16 bits:
+LoRA (*Low-Rank Adaptation*) agrega una corrección entrenable a determinadas matrices existentes. En una configuración simplificada:
 
-$$
-\begin{aligned}
-1{,}000{,}000{,}000 \times \frac{16}{8}
-  &= 2{,}000{,}000{,}000\ \text{bytes}.
-\end{aligned}
-$$
+$$W'=W+BA,$$
 
-es decir, 2 GB decimales o aproximadamente 1.86 GiB antes de sobrecargas.
+con $W$ congelada, $A$ de forma $r\times d_{\text{in}}$ y $B$ de forma $d_{\text{out}}\times r$. En lugar de entrenar todos los $d_{\text{out}}d_{\text{in}}$ elementos de $W$, se entrenan:
 
-En la práctica se suman escalas, metadatos, activaciones, buffers y caché KV. Entrenar requiere gradientes y estados del optimizador; inferir requiere pesos, activaciones y caché. Cuantizar reduce memoria, pero puede degradar algunas salidas y el efecto depende del método y datos.
+$$P_{\text{LoRA}}=r(d_{\text{in}}+d_{\text{out}}).$$
 
-Preguntas: ¿por qué GB y GiB difieren?, ¿qué memoria se reutiliza entre tokens?, ¿por qué Q4 no significa exactamente cuatro bits para cada byte del archivo?
+Ejemplo: si $W$ mide $1000\times1000$, tiene un millón de valores. Con rango $r=8$, las dos matrices LoRA tienen $8(1000+1000)=16\,000$ parámetros. Es una reducción grande **para esta matriz y configuración**, sin afirmar que todo el sistema tenga únicamente 16 000 parámetros.
 
-[Siguiente →](14-ejecucion-de-modelos.md)
+### ¿Qué es QLoRA?
+
+Es una estrategia que combina adaptadores de rango bajo con almacenamiento cuantizado de pesos base para reducir necesidades de memoria durante ciertos ajustes. No significa que los parámetros aprendidos se conviertan mágicamente en un modelo mejor ni que siempre resulte apropiada.
+
+### ¿Cuál opción elegir?
+
+| Estrategia | Qué se modifica | Uso habitual |
+|---|---|---|
+| Desde cero | Pesos inicializados para la tarea | Modelos educativos o necesidades especiales |
+| Capa de salida | Solo una pequeña parte | Clasificación con representación previa |
+| Fine-tuning completo | Muchos o todos los pesos | Adaptación con suficientes recursos |
+| LoRA | Adaptadores seleccionados | Adaptación eficiente |
+
+**Práctica numérica.** Para una matriz $512\times256$ y rango LoRA $r=4$: matriz original $131\,072$ pesos; adaptadores $4(512+256)=3\,072$ parámetros. Calcula el porcentaje y explica que este conteo excluye otros componentes.
+
+**Error frecuente:** fine-tuning no es lo mismo que agregar documentos a un buscador RAG. El primero cambia parámetros; el segundo recupera información externa durante la consulta.
+
+**Siguiente:** [entrenar un modelo propio](14-ejecucion-de-modelos.md).

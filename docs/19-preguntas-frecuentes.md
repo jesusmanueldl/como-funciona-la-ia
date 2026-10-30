@@ -1,33 +1,39 @@
-# 19. ¿Qué es un LLM?
+# 19. ¿Qué es un LLM y por qué su tamaño importa?
 
-Un LLM es un modelo de lenguaje grande, pero no existe un umbral universal para “grande”. Importan arquitectura, parámetros, datos, contexto, entrenamiento, eficiencia y evaluación. Aumentar parámetros puede ampliar capacidad, pero no garantiza verdad, seguridad ni mejor rendimiento en toda tarea.
+## «Grande» no es una fórmula mágica
 
-## Preguntas frecuentes y mitos
+Un LLM (*Large Language Model*, modelo de lenguaje grande) es un modelo de lenguaje de gran escala. Suele involucrar numerosos parámetros y grandes procesos de entrenamiento. **No existe un umbral universal que haga a un modelo LLM al superar exactamente cierta cifra.** El tamaño es una descripción de escala, no una prueba automática de calidad.
 
-1. **¿7B significa siete mil millones de respuestas?** No: aproximadamente siete mil millones de parámetros.
-2. **¿Un parámetro es una neurona?** No necesariamente.
-3. **¿Los parámetros contienen palabras?** Son números que transforman representaciones.
-4. **¿Aprende cuando chateo?** Normalmente no modifica pesos.
-5. **¿Puede recordar sin entrenamiento?** Una app puede guardar memoria externa.
-6. **¿Necesita Internet?** Solo si la tarea requiere datos externos o el servicio es remoto.
-7. **¿Un modelo pequeño es inútil?** No; puede ser rápido y adecuado.
-8. **¿Más parámetros siempre es mejor?** No.
-9. **¿Piensa como una persona?** No está demostrado.
-10. **¿Comprende realmente?** La palabra “comprender” requiere definir criterios; la conducta no prueba experiencia.
-11. **¿Cuánto ocupa?** Depende de parámetros, precisión y metadatos.
-12. **¿Por qué funciona en un teléfono?** Modelos compactos, cuantización y hardware especializado.
-13. **¿Entrenar es ejecutar?** Entrenar ajusta; inferir usa pesos fijos.
-14. **¿Qué es una alucinación?** Una salida no respaldada presentada con seguridad.
-15. **¿Por qué un agente usa herramientas?** Para obtener datos o efectuar acciones fuera del modelo.
-16. **¿Un chatbot siempre es agente?** No.
-17. **¿Un token es una palabra?** No necesariamente.
-18. **¿RAG reentrena?** No: recupera información para el contexto.
-19. **¿Cuantizar siempre destruye calidad?** No siempre, pero puede alterar resultados.
-20. **¿Atención es conciencia?** No; es una operación matemática.
-21. **¿Un modelo puede equivocarse con matemática sencilla?** Sí, si no verifica.
-22. **¿Una fuente externa garantiza verdad?** No; debe evaluarse.
-23. **¿Un agente debe actuar sin preguntar?** Solo dentro de permisos y límites explícitos.
-24. **¿Un modelo local es privado automáticamente?** No; también importan registros y aplicaciones.
-25. **¿La temperatura crea conocimiento?** No, cambia muestreo.
+### ¿Qué representan los números como 1B o 7B?
 
-[Siguiente →](20-glosario.md)
+En esa notación habitual, «B» significa miles de millones. Una etiqueta 7B sugiere aproximadamente 7 000 millones de parámetros; la cifra exacta puede variar. El recuento sale de sumar elementos de tensores aprendidos, no del número de respuestas almacenadas.
+
+### ¿Por qué un modelo pequeño puede ser útil?
+
+Un modelo pequeño puede requerir menos memoria y cómputo, responder más rápido y ser práctico para tareas delimitadas. Un modelo más grande podría afrontar tareas más complejas, pero también puede consumir más recursos y equivocarse. La calidad depende de arquitectura, datos, entrenamiento, adaptación, evaluación y contexto, no solo del número de pesos.
+
+### Parámetros y capacidad de cómputo
+
+Supongamos **hipotéticamente** un modelo con mil millones de parámetros representados a 16 bits cada uno. Sus pesos ocuparían al menos unos dos mil millones de bytes decimales antes de añadir otros componentes. Eso no es necesariamente la RAM total necesaria para ejecutarlo: también hay activaciones, cachés y buffers.
+
+### ¿Qué aprende en el entrenamiento?
+
+Patrones de secuencias, regularidades y representaciones útiles. Las conexiones entre numerosos pesos pueden ayudar a reproducir conocimiento y resolver tareas, pero eso no equivale a tener almacenada cada pregunta con una respuesta fija.
+
+### ¿Qué significa contexto?
+
+Es el contenido que se ofrece a la red para la inferencia: instrucciones, mensajes anteriores, documentos o tokens generados. Un modelo puede tener pesos fijos y producir una respuesta distinta cuando cambia el contexto.
+
+### ¿Qué puede fallar?
+
+Puede inventar fuentes, razonar erróneamente, repetir sesgos o interpretar mal la intención. Hablar con fluidez no demuestra por sí solo que el resultado sea cierto. Para aplicaciones delicadas hacen falta comprobaciones y supervisión.
+
+### Mini cuestionario con respuestas
+
+1. **¿7B significa siete mil millones de palabras?** No: se refiere aproximadamente a parámetros.
+2. **¿Un modelo 70B siempre gana a uno menor?** No, depende de tarea y evaluación.
+3. **¿Puede un LLM funcionar sin Internet?** Sí, si sus pesos y un motor compatible están disponibles localmente.
+4. **¿Puede un LLM abrir aplicaciones por sí solo?** El modelo genera señales o texto; una aplicación con permisos y herramientas realiza acciones.
+5. **¿Cambiar el prompt reentrena el modelo?** No, normalmente cambia el contexto de inferencia.
+
+**Siguiente:** [cómo se genera una respuesta token a token](20-glosario.md).

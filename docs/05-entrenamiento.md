@@ -1,70 +1,45 @@
 # 5. ¿Qué son realmente los parámetros?
 
-Imagina una máquina que calcula descuentos. Sus pesos determinan cuánto importa el precio y el porcentaje; el sesgo desplaza el resultado. El entrenamiento modifica esos números, pero una activación intermedia no es un parámetro permanente.
+## El número que una máquina no conoce al empezar
 
-Los parámetros entrenables se actualizan mediante gradientes. Un parámetro congelado permanece fijo durante una etapa; un hiperparámetro, como la tasa de aprendizaje, configura el proceso. El estado del optimizador ayuda a continuar el entrenamiento, pero no es necesariamente parte de la respuesta del modelo.
+Imagina una pequeña calculadora que debe aprender un descuento del 20 %. Le damos precios antes y después del descuento. No queremos programar a mano todas las respuestas posibles: queremos que encuentre el factor $0.8$.
 
-## El aprendizaje como ajuste
+Podemos representar la operación como $\hat y=wx+b$. El sombrerito en $\hat y$ indica **predicción**, no resultado correcto. Si utilizamos $b=0$ y $w=1$, al introducir $100$ la máquina responde $100$, pero debería responder $80$. Debemos cambiar $w$.
 
-Entrenar es repetir predicción, comparación y ajuste. Para una predicción $\hat{y}$ y objetivo $y$, una pérdida sencilla es:
+### Parámetros frente a datos
 
-$$
-L = (\hat{y} - y)^2.
-$$
+En este ejemplo $x=100$ es un **dato de entrada**, $y=80$ es la **respuesta objetivo**, y $w$ es un **parámetro**. Un parámetro es un número propio del modelo que el procedimiento de entrenamiento puede ajustar. Si hay un sesgo entrenable $b$, también es un parámetro.
 
-El descenso de gradiente actualiza un parámetro:
+Los valores pueden inicializarse con ceros o valores aleatorios cuidadosamente elegidos, según la arquitectura. Inicializar todos los pesos igual puede crear problemas de simetría en redes multicapa: distintas neuronas aprenderían comportamientos idénticos. Los métodos de inicialización buscan mantener señales y gradientes en escalas útiles.
 
-$$
-w_{\text{nuevo}} = w_{\text{anterior}}
-  - \eta \frac{\partial L}{\partial w}.
-$$
+### ¿Qué significa «entrenable»?
 
-donde $\eta$ es la tasa de aprendizaje y la derivada indica cómo cambia el error al cambiar $w$.
+Un parámetro *entrenable* participa en las actualizaciones del optimizador. Otro puede quedar *congelado*: existe en el modelo y participa en los cálculos de salida, pero no cambia durante cierto entrenamiento. Esto se utiliza, por ejemplo, al adaptar solo una parte de un modelo previamente entrenado.
 
-## Ejemplo completo
+| Elemento | ¿Se ajusta con el entrenamiento? | Ejemplo |
+|---|---|---|
+| Peso entrenable | Sí | $w=0.2\rightarrow0.4$ |
+| Sesgo entrenable | Sí | $b=-0.1\rightarrow0$ |
+| Peso congelado | No durante esa fase | $w=0.7$ |
+| Entrada | No es parámetro | $x=100$ |
+| Hiperparámetro | Se configura por otro procedimiento | Tasa de aprendizaje $\eta=0.1$ |
+| Activación | Se recalcula para cada entrada | Salida intermedia de una capa |
+| Gradiente | Se calcula a partir de la pérdida | $\partial L/\partial w$ |
 
-Considera $\hat{y} = wx$, objetivo $y = 4$, ejemplo $x = 2$, $w = 1$ y $\eta = 0.1$.
+### Error y ajuste
 
-1. Predicción: $\hat{y} = 1 \times 2 = 2$.
-2. Error: $\hat{y} - y = -2$.
-3. Pérdida: $L = (-2)^2 = 4$.
-4. Derivada: como $L = (wx - y)^2$:
+Con $\hat y=wx$, una pérdida posible es $L=(\hat y-y)^2$. Si $x=1$, $y=2$ y $w=0$, $\hat y=0$ y $L=4$. Tras un paso de entrenamiento, el optimizador puede actualizar $w$ para reducir esa pérdida. El capítulo 7 muestra todas las operaciones numéricas.
 
-   $$
-   \begin{aligned}
-   \frac{\partial L}{\partial w}
-   &= 2(wx-y)x \\
-   &= 2(-2)(2) = -8.
-   \end{aligned}
-   $$
-5. Actualización: $w = 1 - 0.1(-8) = 1.8$.
+### Entonces, ¿un parámetro guarda una respuesta?
 
-Segunda iteración: $\hat{y} = 1.8 \times 2 = 3.6$, $L = (3.6 - 4)^2 = 0.16$; el error disminuyó. El ajuste no “comprende” el ejemplo: mueve un número en la dirección que reduce la función definida.
+No. En un modelo grande, cantidades inmensas de pesos contribuyen a las representaciones y transformaciones. Un peso individual no suele corresponder a «la capital de un país» o «la palabra perro». Por eso tampoco podemos contar los conocimientos de un modelo contando parámetros como si fueran fichas enciclopédicas.
 
-## Retropropagación
+### Parámetros, estado y memoria no son lo mismo
 
-En una red con muchas capas, la regla de la cadena transmite cómo cada parámetro contribuyó a la pérdida. El gradiente viaja desde la salida hacia capas anteriores. La retropropagación no es un segundo tipo de aprendizaje; es un método eficiente para calcular derivadas.
+Si cierras una aplicación con IA, sus **pesos** pueden conservarse en archivos. Pero el historial de conversación podría estar en una base de datos externa. Además, durante el entrenamiento pueden guardarse gradientes o estados del optimizador en checkpoints. Cada cosa cumple una función distinta.
 
-```mermaid
-flowchart LR
-  A[Datos] --> B[Propagación hacia delante]
-  B --> C[Pérdida]
-  C --> D[Retropropagación]
-  D --> E[Gradientes]
-  E --> F[Optimizador]
-  F --> B
-```
+**Ejercicio.** En una red con 20 pesos, 5 sesgos y 3 valores de entrada, ¿cuántos parámetros existen si todos los pesos y sesgos son entrenables? **Solución:** $20+5=25$; las entradas no cuentan.
 
-## Datos y generalización
+**Para reflexionar.** ¿Cambiar la temperatura de generación modifica los pesos del modelo? **Respuesta:** normalmente no; cambia cómo se seleccionan los tokens a partir de las predicciones.
 
-Una época recorre el conjunto de entrenamiento; un lote es una parte del conjunto. Validación y prueba ayudan a detectar sobreajuste: memorizar patrones particulares sin generalizar. El subajuste ocurre cuando el modelo o entrenamiento no capturan suficiente estructura.
-
-## Confusiones frecuentes
-
-Reducir pérdida no garantiza verdad, justicia o utilidad. La función de pérdida es una medida definida por el diseño. Chatear con un modelo normalmente no modifica sus parámetros; la conversación solo cambia el contexto de inferencia.
-
-## Resumen y práctica
-
-El entrenamiento ajusta parámetros mediante gradientes. Preguntas: ¿qué representa $\eta$? ¿por qué se resta el gradiente? ¿cómo distinguir error de entrenamiento y generalización? Ejecuta `ejemplos/descenso_gradiente.py` y observa dos iteraciones.
-
-[Siguiente: preentrenamiento y ajuste fino →](06-preentrenamiento.md)
+**Siguiente:** [contaremos millones de parámetros](06-preentrenamiento.md).

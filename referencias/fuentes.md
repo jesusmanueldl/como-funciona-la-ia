@@ -12,7 +12,11 @@ Estas referencias se consultaron para los conceptos técnicos principales. La re
 8. PyTorch, [documentación oficial](https://pytorch.org/docs/stable/). Tensores, autograd, módulos, optimizadores y guardado de estados.
 9. scikit-learn, [documentación oficial](https://scikit-learn.org/stable/user_guide.html). Separación de datos, evaluación y aprendizaje automático clásico.
 10. Hugging Face, [documentación de Transformers](https://huggingface.co/docs/transformers). Tokenizadores, modelos, entrenamiento e inferencia.
-11. Creative Commons, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es). Licencia de los contenidos originales.
+11. Lewis et al. (2020), *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks*. [arXiv](https://arxiv.org/abs/2005.11401). Recuperación de información para generación.
+12. PyTorch, [tutorial de optimización](https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html). Bucle de entrenamiento y actualización de parámetros.
+13. scikit-learn, [aprendizaje semisupervisado](https://scikit-learn.org/stable/modules/semi_supervised.html). Métodos y terminología para datos parcialmente etiquetados.
+14. GitHub Docs, [expresiones matemáticas](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/writing-mathematical-expressions). Sintaxis de MathJax compatible con GitHub.
+15. Creative Commons, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es). Licencia de los contenidos originales.
 
 ## Nota metodológica
 
